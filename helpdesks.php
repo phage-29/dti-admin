@@ -26,7 +26,25 @@ require_once "components/sidebar.php";
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Coming Soon</h5>
-            <!-- <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p> -->
+            <table>
+              <thead>
+                <tr>
+                  <th>Request No.</th>
+                  <th>Requestor</th>
+                  <th>Email</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+            </table>
           </div>
         </div>
 

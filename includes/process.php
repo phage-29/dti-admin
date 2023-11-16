@@ -8,6 +8,10 @@ require_once "sendmail.php";
 session_start();
 
 $response = array();
+
+$response['status'] = 'error';
+$response['message'] = 'Something went wrong!';
+
 if (isset($_POST['Login'])) {
     $Username = $conn->real_escape_string($_POST['Username']);
     $Password = $conn->real_escape_string($_POST['Password']);
@@ -230,6 +234,44 @@ if (isset($_POST['ContactUs'])) {
     } else {
         $response['status'] = 'error';
         $response['message'] = 'Unable to Send Email!';
+    }
+}
+
+if (isset($_POST['AddRequest'])) {
+    $DateRequested = $conn->real_escape_string($_POST['DateRequested']);
+    $RequestNo = $conn->real_escape_string($_POST['RequestNo']);
+    $Email = $conn->real_escape_string($_POST['Email']);
+    $FirstName = $conn->real_escape_string($_POST['FirstName']);
+    $LastName = $conn->real_escape_string($_POST['LastName']);
+    $DivisionID = $conn->real_escape_string($_POST['DivisionID']);
+    $RequestType = $conn->real_escape_string($_POST['RequestType']);
+    $PropertyNo = $conn->real_escape_string($_POST['PropertyNo']);
+    $CategoryID = $conn->real_escape_string($_POST['CategoryID']);
+    $SubCategoryID = $conn->real_escape_string($_POST['SubCategoryID']);
+    $Complaints = $conn->real_escape_string($_POST['Complaints']);
+
+    try {
+        $query = "SELECT * FROM helpdesks WHERE RequestNo=?";
+        $result = $conn->execute_query($query, [$RequestNo]);
+        if (!$result->num_rows) {
+            try {
+                $query = "INSERT INTO helpdesks (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints]);
+
+                $response['status'] = 'success';
+                $response['message'] = 'Your request has been received';
+                $response['redirect'] = '../requestserviceview.php';
+            } catch (Exception $e) {
+                $response['status'] = 'error';
+                $response['message'] = 'Error: ' . $e->getMessage();
+            }
+        } else {
+            $response['status'] = 'error';
+            $response['message'] = 'There seems to be a problem in submitting your request';
+        }
+    } catch (Exception $e) {
+        $response['status'] = 'error';
+        $response['message'] = 'Error: ' . $e->getMessage();
     }
 }
 
