@@ -258,6 +258,26 @@ if (isset($_POST['AddRequest'])) {
                 $query = "INSERT INTO helpdesks (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints]);
 
+                $Subject = 'Ticket Confirmation - Request No. ' . $RequestNo;
+
+                $Message = "Dear $FirstName $LastName,<br><br>";
+                $Message .= "Thank you for submitting your request to the ICT Service Desk System. Here are the details of your request:<br><br>";
+                $Message .= "<strong>Request No.:</strong>$RequestNo<br>";
+                $Message .= "<strong>Your Email:</strong> $Email<br>";
+                $Message .= "<strong>Full Name:</strong> $FirstName $LastName<br>";
+                $Message .= "<strong>Division:</strong> " . $conn->query("SELECT * FROM divisions WHERE id='" . $DivisionID . "'")->fetch_object()->Division . "<br>";
+                $Message .= "<strong>Request Type:</strong> $RequestType<br>";
+                $Message .= "<strong>Category/Nature of Request:</strong> " . $conn->query("SELECT * FROM categories WHERE id='" . $CategoryID . "'")->fetch_object()->Category . "<br>";
+                $Message .= "<strong>Request Type:</strong> " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "<br>";
+                $Message .= "<strong>Description of Assistance Requested:</strong> $Complaints<br><br>";
+                $Message .= "<strong>Click the link below to view your request</strong><br>";
+                $Message .= "<a href='http://r6itbpm.site/dti-isds/viewrequest.php?Request=$RequestNo'>View Request</a><br><br>";
+                $Message .= "Our team will review your request and address it as soon as possible. You will receive further communication regarding the status and resolution of your request.<br><br>";
+                $Message .= "Thank you for choosing our services.<br><br>";
+                $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
+
+                sendEmail($Email, $Subject, $Message);
+
                 $response['status'] = 'success';
                 $response['message'] = 'Your request has been received';
                 $response['redirect'] = '../requestserviceview.php';
@@ -274,6 +294,53 @@ if (isset($_POST['AddRequest'])) {
         $response['message'] = 'Error: ' . $e->getMessage();
     }
 }
+
+if (isset($_POST['UpdateRequest'])) {
+    $id = $conn->real_escape_string($_POST['id']);
+    $Status = $conn->real_escape_string($_POST['Status']);
+    $DateReceived = !empty($_POST['DateReceived']) ? date('Y-m-d', strtotime($_POST['DateReceived'])) : null;
+    $ReceivedBy = $_POST['ReceivedBy'] ?? null;
+    $DateScheduled = !empty($_POST['DatetimeScheduled']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeScheduled'])) : null;
+    $RepairType = $conn->real_escape_string($_POST['RepairType']);
+    $DatetimeStarted = !empty($_POST['DatetimeStarted']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeStarted'])) : null;
+    $DatetimeFinished = !empty($_POST['DatetimeFinished']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeFinished'])) : null;
+    $Diagnosis = $conn->real_escape_string($_POST['Diagnosis']);
+    $Remarks = $conn->real_escape_string($_POST['Remarks']);
+    $ServicedBy = $_POST['ServicedBy'] ?? null;
+    $ApprovedBy = $_POST['ApprovedBy'] ?? null;
+
+    try {
+        $query = "SELECT * FROM helpdesks WHERE id=?";
+        $result = $conn->execute_query($query, [$id]);
+
+        if ($result->num_rows) {
+            try {
+                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `DateScheduled`=?, `RepairType`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
+                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
+
+                if ($updateResult) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Request has been updated';
+                    $response['redirect'] = '../helpdesks.php';
+                } else {
+                    $response['status'] = 'error';
+                    $response['message'] = 'Error updating request record';
+                }
+            } catch (Exception $e) {
+                $response['status'] = 'error';
+                $response['message'] = 'Error: ' . $e->getMessage();
+            }
+        } else {
+            $response['status'] = 'error';
+            $response['message'] = 'Request record not found';
+        }
+    } catch (Exception $e) {
+        $response['status'] = 'error';
+        $response['message'] = 'Error: ' . $e->getMessage();
+    }
+}
+
+
 
 
 $responseJSON = json_encode($response);

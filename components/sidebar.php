@@ -17,6 +17,26 @@
             </a>
         </li><!-- End Profile Page Nav -->
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="accomplishments.php">
+                <i class="bi bi-check-circle"></i>
+                <span>Accomplishments</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+        <?php
+        if ($acc->Role == "Admin") {
+        ?>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="reports.php">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Reports</span>
+                </a>
+            </li><!-- End Profile Page Nav -->
+        <?php
+        }
+        ?>
+
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
