@@ -132,7 +132,7 @@ CREATE TABLE `helpdesks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `RequestNo_UNIQUE` (`RequestNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `helpdesks` (
 
 LOCK TABLES `helpdesks` WRITE;
 /*!40000 ALTER TABLE `helpdesks` DISABLE KEYS */;
-INSERT INTO `helpdesks` VALUES (1,'REQ-2311-00001','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-16','ICT Helpdesk','',1,3,'WALA GAGANA',NULL,NULL,NULL,'Minor',NULL,NULL,NULL,NULL,NULL,NULL,'Pending','2023-11-16 09:04:40','2023-11-16 09:04:40');
+INSERT INTO `helpdesks` VALUES (1,'REQ-2311-00001','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-16','ICT Helpdesk','',1,3,'WALA GAGANA',NULL,NULL,NULL,'Minor',NULL,NULL,'','',NULL,NULL,'Pending','2023-11-16 09:04:40','2023-11-17 05:57:09'),(2,'REQ-2311-00002','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-17','ICT Helpdesk','',1,3,'di ka print','1970-01-01',1,NULL,'Minor','1970-01-01 01:00:00','1970-01-01 01:00:00','','',NULL,NULL,'Completed','2023-11-17 05:13:12','2023-11-17 08:12:03'),(3,'REQ-2311-00003','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-17','ICT Helpdesk','',1,1,'asdasda','2023-11-17',1,NULL,'Minor','2023-11-17 16:00:00','2023-11-20 09:00:00','awts','asdas',1,2,'Completed','2023-11-17 05:22:52','2023-11-17 09:33:19'),(4,'REQ-2311-00004','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-17','ICT Helpdesk','',1,3,'End Life',NULL,NULL,NULL,'Minor',NULL,NULL,NULL,NULL,NULL,NULL,'Pending','2023-11-17 07:53:10','2023-11-17 07:53:10'),(5,'REQ-2311-00005','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-17','ICT Helpdesk','',1,3,'asdasdas',NULL,NULL,NULL,'Minor',NULL,NULL,NULL,NULL,NULL,NULL,'Pending','2023-11-17 07:56:07','2023-11-17 07:56:07'),(6,'REQ-2311-00006','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-17','ICT Helpdesk','',1,1,'asdasdas',NULL,NULL,NULL,'Minor',NULL,NULL,NULL,NULL,NULL,NULL,'Pending','2023-11-17 07:58:37','2023-11-17 07:58:37'),(7,'REQ-2311-00007','Dan Alfrei','Fuerte','dace.phage@gmail.com',1,'2023-11-17','ICT Helpdesk','',2,7,'asdasd',NULL,NULL,NULL,'Minor',NULL,NULL,NULL,NULL,NULL,NULL,'Pending','2023-11-17 08:10:04','2023-11-17 08:10:04');
 /*!40000 ALTER TABLE `helpdesks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +270,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Dan Alfrei','Celestial','Fuerte','dace.phage@gmail.com','09818098637','Iloilo City','MIS_Fuerte','$2y$10$x.MVSTG2t568RBDpQ/OOaO5fk0MHz0J0U7NISgryX/ZqFYaKX1M8i','Staff',NULL),(2,'Angelo','G.','Patrimonio','angelopatrimonio@dti.gov.ph','09123456789','Iloilo City','MIS_Ghelo','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Admin',NULL),(3,'Bemy John',NULL,'Collado','bemyjohncollado@dti.gov.ph','09123456789','Iloilo City','MIS_Collado','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Admin',NULL),(4,'Kristopher Gerard',NULL,'Jovero','kristophergerard13@gmail.com','09123456789','Iloilo City','MIS_Jovero','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Staff',NULL),(5,'Ana Grace',NULL,'Barba','barbaanagrace98@gmail.com','09123456789','Iloilo City','GIP_Ana','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Staff',NULL);
+INSERT INTO `users` VALUES (1,'Dan Alfrei','Celestial','Fuerte','dace.phage@gmail.com','09818098637','Iloilo City','MIS_Fuerte','$2y$10$x.MVSTG2t568RBDpQ/OOaO5fk0MHz0J0U7NISgryX/ZqFYaKX1M8i','Admin',NULL),(2,'Angelo','G.','Patrimonio','angelopatrimonio@dti.gov.ph','09123456789','Iloilo City','MIS_Ghelo','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Admin',NULL),(3,'Bemy John',NULL,'Collado','bemyjohncollado@dti.gov.ph','09123456789','Iloilo City','MIS_Collado','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Admin',NULL),(4,'Kristopher Gerard',NULL,'Jovero','kristophergerard13@gmail.com','09123456789','Iloilo City','MIS_Jovero','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Staff',NULL),(5,'Ana Grace',NULL,'Barba','barbaanagrace98@gmail.com','09123456789','Iloilo City','GIP_Ana','$2y$10$XUBbkqJMSrfqeKC1O27omeEsz.Jucxz3DkcvkvFyTrCgFfiOemaLu','Staff',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -283,4 +283,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-16 17:27:10
+-- Dump completed on 2023-11-17 17:37:29
