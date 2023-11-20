@@ -106,6 +106,14 @@ require_once "components/header.php";
                                             ?>
                                         </select>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <label for="DatePreferred" class="form-label">Preferred Date</label>
+                                        <input type="date" class="form-control" id="DatePreferred" name="DatePreferred" value="<?= date('Y-m-d') ?>">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="TimePreferred" class="form-label">Preferred Time</label>
+                                        <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" value="<?= date('H:i') ?>">
+                                    </div>
 
                                     <script>
                                         $(document).ready(function() {

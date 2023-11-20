@@ -249,14 +249,16 @@ if (isset($_POST['AddRequest'])) {
     $CategoryID = $conn->real_escape_string($_POST['CategoryID']);
     $SubCategoryID = $conn->real_escape_string($_POST['SubCategoryID']);
     $Complaints = $conn->real_escape_string($_POST['Complaints']);
+    $DatePreferred = $conn->real_escape_string($_POST['DatePreferred']);
+    $TimePreferred = $conn->real_escape_string($_POST['TimePreferred']);
 
     try {
         $query = "SELECT * FROM helpdesks WHERE RequestNo=?";
         $result = $conn->execute_query($query, [$RequestNo]);
         if (!$result->num_rows) {
             try {
-                $query = "INSERT INTO helpdesks (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints]);
+                $query = "INSERT INTO helpdesks (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred]);
 
                 $Subject = 'Ticket Confirmation - Request No. ' . $RequestNo;
 
@@ -269,7 +271,9 @@ if (isset($_POST['AddRequest'])) {
                 $Message .= "<strong>Request Type:</strong> $RequestType<br>";
                 $Message .= "<strong>Category/Nature of Request:</strong> " . $conn->query("SELECT * FROM categories WHERE id='" . $CategoryID . "'")->fetch_object()->Category . "<br>";
                 $Message .= "<strong>Request Type:</strong> " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "<br>";
-                $Message .= "<strong>Description of Assistance Requested:</strong> $Complaints<br><br>";
+                $Message .= "<strong>Description of Assistance Requested:</strong> $Complaints<br>";
+                $Message .= "<strong>Preferred Date:</strong> $DatePreferred<br>";
+                $Message .= "<strong>Preferred Time:</strong> $TimePreferred<br><br>";
                 $Message .= "<strong>Click the link below to view your request</strong><br>";
                 $Message .= "<a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=$RequestNo'>View Request</a><br><br>";
                 $Message .= "Our team will review your request and address it as soon as possible. You will receive further communication regarding the status and resolution of your request.<br><br>";
