@@ -96,6 +96,14 @@ if (isset($_GET["Request"])) {
                                             <label for="Complaints" class="form-label">Defects/Complaints</label>
                                             <textarea class="form-control" id="Complaints" name="Complaints" disabled><?= $req->Complaints ?></textarea>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <label for="DatePreferred" class="form-label">Preferred Date</label>
+                                            <input type="date" class="form-control" id="DatePreferred" name="DatePreferred" value="<?= $req->PreferredDate ?>" disabled>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="TimePreferred" class="form-label">Preferred Time</label>
+                                            <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" value="<?= $req->PreferredTime ?>" disabled>
+                                        </div>
                                         <hr>
                                         <div class="col-lg-12">
                                             <label for="Status" class="form-label">Status</label>
