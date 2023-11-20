@@ -75,7 +75,7 @@ if (isset($_GET["Request"])) {
                                         <h5 class="card-title text-center pb-0 fs-4">REQUEST FOR ICT TECHNICAL ASSISTANCE AND SERVICING FORM</h5>
                                         <p class="text-center small">Overview details of your service request.</p>
                                     </div>
-
+                                    <?= $req->Status == "Pending" ? "<h1 class='text-warning'>PENDING</h1>" : ($req->Status == "On Going" ? "<h1 class='text-primary'>ON GOING</h1>" : ($req->Status == "Completed" ? "<h1 class='text-success'>COMPLETED</h1>" : ($req->Status == "Denied" ? "<h1 class='text-danger'>DENIED</h1>" : ($req->Status == "Cancelled" ? "<h1 class='text-secondary'>CANCELLED</h1>" : "<h1 class='text-info'>UNSERVICEABLE</h1>")))) ?>
                                     <div class="row g-3">
                                         <div class="col-lg-6">
                                             <label for="DateRequested" class="form-label">DateRequested</label>
@@ -107,10 +107,6 @@ if (isset($_GET["Request"])) {
                                             <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" value="<?= $req->TimePreferred ?>" disabled>
                                         </div>
                                         <hr>
-                                        <div class="col-lg-12">
-                                            <label for="Status" class="form-label">Status</label>
-                                            <input type="text" class="form-control" id="Status" name="Status" value="<?= $req->Status ?>" disabled>
-                                        </div>
 
                                         <div class="col-lg-6">
                                             <label for="DateReceived" class="form-label">DateReceived</label>
