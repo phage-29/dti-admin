@@ -143,6 +143,7 @@ require_once "components/header.php";
                                     <div class="col-lg-12">
                                         <p class="small mb-0">
                                             Hows my requests? <a href="requestserviceview.php">View Request</a>
+                                            Are you an Admin? <a href="login.php">Login</a>
                                         </p>
                                     </div>
                                 </form>
