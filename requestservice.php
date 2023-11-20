@@ -149,9 +149,11 @@ require_once "components/header.php";
                                         <button class="btn btn-primary w-100" type="submit">Submit Request</button>
                                     </div>
                                     <div class="col-lg-12">
-                                        <p class="small mb-0">
-                                            Hows my requests? <a href="requestserviceview.php">View Request</a>
-                                            Are you an Admin? <a href="login.php">Login</a>
+                                        <p class="small mb-0 text-center">
+                                            <a href="requestserviceview.php">View Request</a>
+                                        </p>
+                                        <p class="small mb-0 text-center">
+                                            <a href="login.php">Login as Admin</a>
                                         </p>
                                     </div>
                                 </form>
