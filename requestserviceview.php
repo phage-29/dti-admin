@@ -29,7 +29,9 @@ if (isset($_GET["Request"])) {
         CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
         h.`Status`,
         h.`CreatedAt`,
-        h.`UpdatedAt`
+        h.`UpdatedAt`,
+        h.`DatePreferred`,
+        h.`TimePreferred`
     FROM helpdesks h
         LEFT JOIN divisions d ON h.`DivisionID` = d.id
         LEFT JOIN categories c ON h.`CategoryID` = c.id
