@@ -9,7 +9,7 @@ require_once "components/header.php";
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                    <div class="col-lg-8 col-md-10 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="d-flex justify-content-center py-4">
                             <a href="index.html" class="logo d-flex align-items-center w-auto">
@@ -142,7 +142,7 @@ require_once "components/header.php";
                                     </div>
                                     <div class="col-lg-12">
                                         <p class="small mb-0">
-                                            <!-- Don't have account? <a href="pages-register.html">Create an account</a> -->
+                                            Hows my requests? <a href="requestserviceview.php">View Request</a>
                                         </p>
                                     </div>
                                 </form>

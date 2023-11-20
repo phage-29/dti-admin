@@ -271,7 +271,7 @@ if (isset($_POST['AddRequest'])) {
                 $Message .= "<strong>Request Type:</strong> " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "<br>";
                 $Message .= "<strong>Description of Assistance Requested:</strong> $Complaints<br><br>";
                 $Message .= "<strong>Click the link below to view your request</strong><br>";
-                $Message .= "<a href='http://r6itbpm.site/dti-isds/viewrequest.php?Request=$RequestNo'>View Request</a><br><br>";
+                $Message .= "<a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=$RequestNo'>View Request</a><br><br>";
                 $Message .= "Our team will review your request and address it as soon as possible. You will receive further communication regarding the status and resolution of your request.<br><br>";
                 $Message .= "Thank you for choosing our services.<br><br>";
                 $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
@@ -310,7 +310,39 @@ if (isset($_POST['UpdateRequest'])) {
     $ApprovedBy = $_POST['ApprovedBy'] ?? null;
 
     try {
-        $query = "SELECT * FROM helpdesks WHERE id=?";
+        $query = "SELECT
+        h.`id`,
+        h.`RequestNo`,
+        h.`FirstName`,
+        h.`LastName`,
+        h.`Email`,
+        d.Division as `Division`,
+        h.`DateRequested`,
+        h.`RequestType`,
+        h.`PropertyNo`,
+        c.Category as `Category`,
+        sc.SubCategory as `SubCategory`,
+        h.`Complaints`,
+        h.`DateReceived`,
+        CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
+        h.`DateScheduled`,
+        h.`RepairType`,
+        h.`DatetimeStarted`,
+        h.`DatetimeFinished`,
+        h.`Diagnosis`,
+        h.`Remarks`,
+        CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
+        CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
+        h.`Status`,
+        h.`CreatedAt`,
+        h.`UpdatedAt`
+    FROM helpdesks h
+        LEFT JOIN divisions d ON h.`DivisionID` = d.id
+        LEFT JOIN categories c ON h.`CategoryID` = c.id
+        LEFT JOIN subcategories sc ON h.`SubCategoryID` = sc.id
+        LEFT JOIN users u1 ON h.`ReceivedBy` = u1.id
+        LEFT JOIN users u2 ON h.`ServicedBy` = u2.id
+        LEFT JOIN users u3 ON h.`ApprovedBy` = u3.id WHERE h.id=?";
         $result = $conn->execute_query($query, [$id]);
 
         if ($result->num_rows) {
@@ -319,9 +351,55 @@ if (isset($_POST['UpdateRequest'])) {
                 $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
 
                 if ($updateResult) {
-                    $response['status'] = 'success';
-                    $response['message'] = 'Request has been updated';
-                    $response['redirect'] = '../helpdesks.php';
+                    while ($row = $result->fetch_object()) {
+                        $Subject = 'Ticket ' . $row->Status . ' - Request No. ' . $row->RequestNo;
+
+                        $Message = "Dear " . $row->FirstName . " " . $row->LastName . ",<br><br>";
+
+                        switch ($row->Status) {
+                            case 'Pending':
+                                $Message .= "Your request is currently pending review. Our team will assess it shortly.<br><br>";
+                                break;
+                            case 'On Going':
+                                $Message .= "Your request is currently being addressed. Our team is actively working on resolving it.<br><br>";
+                                break;
+                            case 'Completed':
+                                $Message .= "Good news! Your request has been successfully resolved. If you have any further questions, feel free to reach out.<br><br>";
+                                break;
+                            case 'Denied':
+                                $Message .= "Unfortunately, your request has been denied. If you have any concerns or need further clarification, please contact us.<br><br>";
+                                break;
+                            case 'Unserviceable':
+                                $Message .= "We regret to inform you that we are unable to service your request at this time. If you have any other inquiries, please let us know.<br><br>";
+                                break;
+                            default:
+                                $Message .= "Your request is in an undefined status. Please contact our support team for further assistance.<br><br>";
+                        }
+
+                        $Message .= "Request details:<br><br>";
+                        $Message .= "<strong>Request No.:</strong>" . $row->RequestNo . "<br>";
+                        $Message .= "<strong>Your Email:</strong> " . $row->Email . "<br>";
+                        $Message .= "<strong>First Name:</strong> " . $row->FirstName . "<br>";
+                        $Message .= "<strong>Division:</strong> " . $row->Division . "<br>";
+                        $Message .= "<strong>Category:</strong> " . $row->Category . "<br>";
+                        $Message .= "<strong>Sub Category:</strong> " . $row->SubCategory . "<br>";
+                        $Message .= "<strong>Request Type:</strong> " . $row->RequestType . "<br>";
+                        $Message .= "<strong>Description of Assistance Requested:</strong> " . $row->Complaints . "<br><br>";
+                        if ($row->Status == 'Completed') {
+                            $Message .= "Kindly spare a moment to complete our Customer Satisfaction Form to provide feedback. <br><a href='https://forms.office.com/r/tBGKen7rG6'>CSF Form</a><br><br>";
+                        } else {
+                            $Message .= "<strong>Click the link below to view your request</strong><br><a href='http://r6itbpm.site/dti-isds/requestserviceview.php.php?Request=" . $row->RequestNo . "'>View Request</a><br><br>";
+                        }
+
+                        $Message .= "Thank you for choosing our services.<br><br>";
+                        $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
+
+                        sendEmail($row->Email, $Subject, $Message);
+
+                        $response['status'] = 'success';
+                        $response['message'] = 'Request has been updated';
+                        $response['redirect'] = '../helpdesks.php';
+                    }
                 } else {
                     $response['status'] = 'error';
                     $response['message'] = 'Error updating request record';
