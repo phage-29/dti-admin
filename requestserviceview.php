@@ -42,7 +42,7 @@ if (isset($_GET["Request"])) {
 ?>
         <script>
             alert('Invalid Request No.');
-            window.location.href = 'viewrequest.php';
+            window.location.href = 'requestservice.php';
         </script>
     <?php
     }
