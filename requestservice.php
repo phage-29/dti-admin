@@ -56,7 +56,7 @@ require_once "components/header.php";
                                         <select class="form-select" id="DivisionID" name="DivisionID" required>
                                             <option value="" selected disabled></option>
                                             <?php
-                                            $result = $conn->query("SELECT * FROM Divisions");
+                                            $result = $conn->query("SELECT * FROM divisions");
                                             while ($row = $result->fetch_object()) {
                                             ?>
                                                 <option value="<?= $row->id ?>"><?= $row->Division ?></option>
@@ -82,7 +82,7 @@ require_once "components/header.php";
                                         <select class="form-select" id="CategoryID" name="CategoryID" required>
                                             <option value="" selected disabled>--</option>
                                             <?php
-                                            $result = $conn->query("SELECT * FROM Categories");
+                                            $result = $conn->query("SELECT * FROM categories");
                                             while ($row = $result->fetch_object()) {
                                             ?>
                                                 <option value="<?= $row->id ?>"><?= $row->Category ?></option>
@@ -97,7 +97,7 @@ require_once "components/header.php";
                                         <select class="form-select" id="SubCategoryID" name="SubCategoryID" required>
                                             <option id="" value="" selected disabled>--</option>
                                             <?php
-                                            $result = $conn->query("SELECT * FROM SubCategories");
+                                            $result = $conn->query("SELECT * FROM subcategories");
                                             while ($row = $result->fetch_object()) {
                                             ?>
                                                 <option data-categoryid="<?= $row->CategoryID ?>" value="<?= $row->id ?>"><?= $row->SubCategory ?></option>

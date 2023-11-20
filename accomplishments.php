@@ -62,10 +62,10 @@ require_once "components/sidebar.php";
                                             <?= $row->Remarks ?>
                                         </td>
                                         <td class="text-nowrap">
-                                            <?= $conn->query("SELECT * FROM Categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?>
+                                            <?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?>
                                         </td>
                                         <td class="text-nowrap">
-                                            <?= $conn->query("SELECT * FROM SubCategories WHERE id='" . $row->SubCategoryID . "'")->fetch_object()->SubCategory ?>
+                                            <?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->SubCategoryID . "'")->fetch_object()->SubCategory ?>
                                         </td>
                                         <td class="text-wrap">
                                             <?= $row->Diagnosis ?>

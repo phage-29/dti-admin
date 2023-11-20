@@ -103,8 +103,8 @@ require_once "components/sidebar.php";
                     <td><?= $row->Email ?></td>
                     <td><?= $conn->query("SELECT * FROM divisions WHERE id='" . $row->DivisionID . "'")->fetch_object()->Division ?></td>
                     <td><?= $row->DateRequested ?></td>
-                    <td><?= $conn->query("SELECT * FROM Categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
-                    <td><?= $conn->query("SELECT * FROM SubCategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
+                    <td><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
+                    <td><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
                     <td class="<?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
                   </tr>
                 <?php
@@ -135,7 +135,7 @@ require_once "components/sidebar.php";
                         <select class="form-select" id="CategoryID" name="CategoryID" disabled>
                           <option value="" selected disabled>--</option>
                           <?php
-                          $result = $conn->query("SELECT * FROM Categories");
+                          $result = $conn->query("SELECT * FROM categories");
                           while ($row = $result->fetch_object()) {
                           ?>
                             <option value="<?= $row->id ?>"><?= $row->Category ?></option>
@@ -150,7 +150,7 @@ require_once "components/sidebar.php";
                         <select class="form-select" id="SubCategoryID" name="SubCategoryID" disabled>
                           <option id="" value="" selected disabled>--</option>
                           <?php
-                          $result = $conn->query("SELECT * FROM SubCategories");
+                          $result = $conn->query("SELECT * FROM subcategories");
                           while ($row = $result->fetch_object()) {
                           ?>
                             <option data-categoryid="<?= $row->CategoryID ?>" value="<?= $row->id ?>"><?= $row->SubCategory ?></option>

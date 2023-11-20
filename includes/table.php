@@ -16,8 +16,8 @@ session_start();
             <td><?= $row->Email ?></td>
             <td><?= $conn->query("SELECT * FROM divisions WHERE id='" . $row->DivisionID . "'")->fetch_object()->Division ?></td>
             <td><?= $row->DateRequested ?></td>
-            <td><?= $conn->query("SELECT * FROM Categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
-            <td><?= $conn->query("SELECT * FROM SubCategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
+            <td><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
+            <td><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
             <td class="<?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
         </tr>
     <?php
