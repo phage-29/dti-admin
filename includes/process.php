@@ -284,7 +284,7 @@ if (isset($_POST['AddRequest'])) {
 
                 $response['status'] = 'success';
                 $response['message'] = 'Your request has been received';
-                $response['redirect'] = '../requestserviceview.php?RequestNo='.$RequestNo;
+                $response['redirect'] = '../requestserviceview.php?Request='.$RequestNo;
             } catch (Exception $e) {
                 $response['status'] = 'error';
                 $response['message'] = 'Error: ' . $e->getMessage();

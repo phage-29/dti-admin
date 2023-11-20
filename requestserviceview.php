@@ -98,11 +98,11 @@ if (isset($_GET["Request"])) {
                                         </div>
                                         <div class="col-lg-6">
                                             <label for="DatePreferred" class="form-label">Preferred Date</label>
-                                            <input type="date" class="form-control" id="DatePreferred" name="DatePreferred" value="<?= $req->PreferredDate ?>" disabled>
+                                            <input type="date" class="form-control" id="DatePreferred" name="DatePreferred" value="<?= $req->DatePreferred ?>" disabled>
                                         </div>
                                         <div class="col-lg-6">
                                             <label for="TimePreferred" class="form-label">Preferred Time</label>
-                                            <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" value="<?= $req->PreferredTime ?>" disabled>
+                                            <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" value="<?= $req->TimePreferred ?>" disabled>
                                         </div>
                                         <hr>
                                         <div class="col-lg-12">
