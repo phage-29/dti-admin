@@ -237,9 +237,13 @@ if (isset($_POST['ContactUs'])) {
     }
 }
 
-if (isset($_POST['AddRequest'])) {
-    $DateRequested = $conn->real_escape_string($_POST['DateRequested']);
-    $RequestNo = $conn->real_escape_string($_POST['RequestNo']);
+if (isset($_POST['Request'])) {
+    $DateRequested = date('Y-m-d');
+
+    $Ym = date_format(date_create($DateRequested), "Ym");
+    $result = $conn->query("SELECT COUNT(*) AS RequestCount FROM helpdesks WHERE DATE_FORMAT(DateRequested, '%Y%m') = '$Ym'");
+    $row = $result->fetch_object();
+    $RequestNo = 'REQ-' . $Ym . '-' . str_pad($row->RequestCount + 1, 5, '0', STR_PAD_LEFT);
     $Email = $conn->real_escape_string($_POST['Email']);
     $FirstName = $conn->real_escape_string($_POST['FirstName']);
     $LastName = $conn->real_escape_string($_POST['LastName']);
@@ -252,51 +256,72 @@ if (isset($_POST['AddRequest'])) {
     $DatePreferred = $conn->real_escape_string($_POST['DatePreferred']);
     $TimePreferred = $conn->real_escape_string($_POST['TimePreferred']);
 
-    try {
-        $query = "SELECT * FROM helpdesks WHERE RequestNo=?";
-        $result = $conn->execute_query($query, [$RequestNo]);
-        if (!$result->num_rows) {
-            try {
-                $query = "INSERT INTO helpdesks (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred]);
+    $query = "INSERT INTO
+            `helpdesks` (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred]);
 
-                $Subject = 'Ticket Confirmation - Request No. ' . $RequestNo;
+    $Subject = 'Ticket Confirmation - Request No. ' . $RequestNo;
+    $Message = "Dear " . $FirstName . " " . $LastName . ",<br><br>";
+    $Message .= "Thank you for submitting your request to the ICT Service Desk System. Here are the details of your request:<br><br>";
+    $Message .= "<strong>Request No.:</strong> " . $RequestNo . "<br>";
+    $Message .= "<strong>Your Email:</strong> " . $Email . "<br>";
+    $Message .= "<strong>Full Name:</strong> " . $FirstName . " " . $LastName . "<br>";
+    $Message .= "<strong>Division:</strong> " . $conn->query("SELECT * FROM divisions WHERE id='" . $DivisionID . "'")->fetch_object()->Division . "<br>";
+    $Message .= "<strong>Request Type:</strong> " . $RequestType . "<br>";
+    $Message .= "<strong>Category/Nature of Request:</strong> " . $conn->query("SELECT * FROM categories WHERE id='" . $CategoryID . "'")->fetch_object()->Category . " / " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "<br>";
+    $Message .= "<strong>Description of Assistance Requested:</strong> " . $Complaints . "<br>";
+    $Message .= "<strong>Preferred Schedule:</strong> " . date_format(date_create($DatePreferred), "d/m/Y") . " " . date_format(date_create($TimePreferred), "H:i a") . "<br><br>";
+    $Message .= "<strong>Click the link below to view your request</strong><br>";
+    $Message .= "<a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=$RequestNo'>View Request</a><br><br>";
+    $Message .= "Our team will review your request and address it as soon as possible. You will receive further communication regarding the status and resolution of your request.<br><br>";
+    $Message .= "Thank you for choosing our services.<br><br>";
+    $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
 
-                $Message = "Dear $FirstName $LastName,<br><br>";
-                $Message .= "Thank you for submitting your request to the ICT Service Desk System. Here are the details of your request:<br><br>";
-                $Message .= "<strong>Request No.:</strong>$RequestNo<br>";
-                $Message .= "<strong>Your Email:</strong> $Email<br>";
-                $Message .= "<strong>Full Name:</strong> $FirstName $LastName<br>";
-                $Message .= "<strong>Division:</strong> " . $conn->query("SELECT * FROM divisions WHERE id='" . $DivisionID . "'")->fetch_object()->Division . "<br>";
-                $Message .= "<strong>Request Type:</strong> $RequestType<br>";
-                $Message .= "<strong>Category/Nature of Request:</strong> " . $conn->query("SELECT * FROM categories WHERE id='" . $CategoryID . "'")->fetch_object()->Category . "<br>";
-                $Message .= "<strong>Request Type:</strong> " . $conn->query("SELECT * FROM subcategories WHERE id='" . $SubCategoryID . "'")->fetch_object()->SubCategory . "<br>";
-                $Message .= "<strong>Description of Assistance Requested:</strong> $Complaints<br>";
-                $Message .= "<strong>Preferred Date:</strong> $DatePreferred<br>";
-                $Message .= "<strong>Preferred Time:</strong> $TimePreferred<br><br>";
-                $Message .= "<strong>Click the link below to view your request</strong><br>";
-                $Message .= "<a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=$RequestNo'>View Request</a><br><br>";
-                $Message .= "Our team will review your request and address it as soon as possible. You will receive further communication regarding the status and resolution of your request.<br><br>";
-                $Message .= "Thank you for choosing our services.<br><br>";
-                $Message .= "Best regards,<br><strong>ICT Service Desk Team</strong>";
+    sendEmail($Email, $Subject, $Message);
 
-                sendEmail($Email, $Subject, $Message);
+    $response['status'] = 'success';
+    $response['message'] = 'Your request has been received';
+    $response['redirect'] = '../request.php?Email=' . $Email;
+}
 
-                $response['status'] = 'success';
-                $response['message'] = 'Your request has been received';
-                $response['redirect'] = '../requestserviceview.php?Request='.$RequestNo;
-            } catch (Exception $e) {
-                $response['status'] = 'error';
-                $response['message'] = 'Error: ' . $e->getMessage();
-            }
-        } else {
-            $response['status'] = 'error';
-            $response['message'] = 'There seems to be a problem in submitting your request';
-        }
-    } catch (Exception $e) {
-        $response['status'] = 'error';
-        $response['message'] = 'Error: ' . $e->getMessage();
-    }
+if (isset($_POST['Encode'])) {
+    $DateRequested = $conn->real_escape_string($_POST['DateRequested']);
+
+    $Ym = date_format(date_create($DateRequested), "Ym");
+    $result = $conn->query("SELECT COUNT(*) AS RequestCount FROM helpdesks WHERE DATE_FORMAT(DateRequested, '%Y%m') = '$Ym'");
+    $row = $result->fetch_object();
+    $RequestNo = 'REQ-' . $Ym . '-' . str_pad($row->RequestCount + 1, 5, '0', STR_PAD_LEFT);
+    $Email = $conn->real_escape_string($_POST['Email']);
+    $FirstName = $conn->real_escape_string($_POST['FirstName']);
+    $LastName = $conn->real_escape_string($_POST['LastName']);
+    $DivisionID = $conn->real_escape_string($_POST['DivisionID']);
+    $RequestType = $conn->real_escape_string($_POST['RequestType']);
+    $PropertyNo = $conn->real_escape_string($_POST['PropertyNo']);
+    $CategoryID = $conn->real_escape_string($_POST['CategoryID']);
+    $SubCategoryID = $conn->real_escape_string($_POST['SubCategoryID']);
+    $Complaints = $conn->real_escape_string($_POST['Complaints']);
+    $DatePreferred = $conn->real_escape_string($_POST['DatePreferred']);
+    $TimePreferred = $conn->real_escape_string($_POST['TimePreferred']);
+    $Status = $conn->real_escape_string($_POST['Status']);
+    $DateReceived = $conn->real_escape_string($_POST['DateReceived']);
+    $ReceivedBy = $conn->real_escape_string($_POST['ReceivedBy']);
+    $DateScheduled = $conn->real_escape_string($_POST['DateScheduled']);
+    $RepairType = $conn->real_escape_string($_POST['RepairType']);
+    $DatetimeStarted = $conn->real_escape_string($_POST['DatetimeStarted']);
+    $DatetimeFinished = $conn->real_escape_string($_POST['DatetimeFinished']);
+    $Diagnosis = $conn->real_escape_string($_POST['Diagnosis']);
+    $Remarks = $conn->real_escape_string($_POST['Remarks']);
+    $ServicedBy = $conn->real_escape_string($_POST['ServicedBy']);
+    $ApprovedBy = $conn->real_escape_string($_POST['ApprovedBy']);
+
+    $query = "INSERT INTO
+            `helpdesks` (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`,`Status`,`DateReceived`,`ReceivedBy`,`DateScheduled`,`RepairType`,`DatetimeStarted`,`DatetimeFinished`,`Diagnosis`,`Remarks`,`ServicedBy`,`ApprovedBy`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred, $Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy]);
+
+    $response['status'] = 'success';
+    $response['message'] = 'Encoded Successfully';
 }
 
 if (isset($_POST['UpdateRequest'])) {
@@ -315,38 +340,38 @@ if (isset($_POST['UpdateRequest'])) {
 
     try {
         $query = "SELECT
-        h.`id`,
-        h.`RequestNo`,
-        h.`FirstName`,
-        h.`LastName`,
-        h.`Email`,
-        d.Division as `Division`,
-        h.`DateRequested`,
-        h.`RequestType`,
-        h.`PropertyNo`,
-        c.Category as `Category`,
-        sc.SubCategory as `SubCategory`,
-        h.`Complaints`,
-        h.`DateReceived`,
-        CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
-        h.`DateScheduled`,
-        h.`RepairType`,
-        h.`DatetimeStarted`,
-        h.`DatetimeFinished`,
-        h.`Diagnosis`,
-        h.`Remarks`,
-        CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
-        CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
-        h.`Status`,
-        h.`CreatedAt`,
-        h.`UpdatedAt`
-    FROM helpdesks h
-        LEFT JOIN divisions d ON h.`DivisionID` = d.id
-        LEFT JOIN categories c ON h.`CategoryID` = c.id
-        LEFT JOIN subcategories sc ON h.`SubCategoryID` = sc.id
-        LEFT JOIN users u1 ON h.`ReceivedBy` = u1.id
-        LEFT JOIN users u2 ON h.`ServicedBy` = u2.id
-        LEFT JOIN users u3 ON h.`ApprovedBy` = u3.id WHERE h.id=?";
+                    h.`id`,
+                    h.`RequestNo`,
+                    h.`FirstName`,
+                    h.`LastName`,
+                    h.`Email`,
+                    d.Division as `Division`,
+                    h.`DateRequested`,
+                    h.`RequestType`,
+                    h.`PropertyNo`,
+                    c.Category as `Category`,
+                    sc.SubCategory as `SubCategory`,
+                    h.`Complaints`,
+                    h.`DateReceived`,
+                    CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
+                    h.`DateScheduled`,
+                    h.`RepairType`,
+                    h.`DatetimeStarted`,
+                    h.`DatetimeFinished`,
+                    h.`Diagnosis`,
+                    h.`Remarks`,
+                    CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
+                    CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
+                    h.`Status`,
+                    h.`CreatedAt`,
+                    h.`UpdatedAt`
+                FROM helpdesks h
+                    LEFT JOIN divisions d ON h.`DivisionID` = d.id
+                    LEFT JOIN categories c ON h.`CategoryID` = c.id
+                    LEFT JOIN subcategories sc ON h.`SubCategoryID` = sc.id
+                    LEFT JOIN users u1 ON h.`ReceivedBy` = u1.id
+                    LEFT JOIN users u2 ON h.`ServicedBy` = u2.id
+                    LEFT JOIN users u3 ON h.`ApprovedBy` = u3.id WHERE h.id=?";
         $result = $conn->execute_query($query, [$id]);
 
         if ($result->num_rows) {

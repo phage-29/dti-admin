@@ -104,17 +104,6 @@ require_once "components/sidebar.php";
 
                         <!-- Table with stripped rows -->
                         <div class="row">
-                            <form class="row col-lg-6 mb-3" id="myForm">
-                                <div class="col-lg-6">
-                                    <label for="DateFrom" class="form-label">Date From</label>
-                                    <input type="date" class="form-control" id="DateFrom" value="<?= $_GET['DateFrom'] ?? '' ?>" name="DateFrom">
-                                </div>
-                                <div class="col-lg-6">
-                                    <label for="DateTo" class="form-label">Date To</label>
-                                    <input type="date" class="form-control" id="DateTo" value="<?= $_GET['DateTo'] ?? '' ?>" name="DateTo">
-                                </div>
-                            </form>
-
                             <script>
                                 $(document).ready(function() {
                                     // Attach change event to both date inputs
@@ -126,7 +115,7 @@ require_once "components/sidebar.php";
                             </script>
 
                         </div>
-                        <table class="table w-100" id="table">
+                        <table class="w-100 small" id="table">
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-nowrap">Request No.</th>

@@ -75,7 +75,7 @@ if (isset($_GET["Request"])) {
                                         <h5 class="card-title text-center pb-0 fs-4">REQUEST FOR ICT TECHNICAL ASSISTANCE AND SERVICING FORM</h5>
                                         <p class="text-center small">Overview details of your service request.</p>
                                     </div>
-                                    <h1 class="mb-3">STATUS: <?= $req->Status == "Pending" ? "<span class='text-warning'>PENDING</span>" : ($req->Status == "On Going" ? "<span class='text-primary'>ON GOING</span>" : ($req->Status == "Completed" ? "<span class='text-success'>COMPLETED</span>" : ($req->Status == "Denied" ? "<span class='text-danger'>DENIED</span>" : ($req->Status == "Cancelled" ? "<span class='text-secondary'>CANCELLED</span>" : "<span class='text-info'>UNSERVICEABLE</span>")))) ?></h1>
+                                    <h1 class="mb-3 text-center">STATUS: <?= $req->Status == "Pending" ? "<span class='text-warning'>PENDING</span>" : ($req->Status == "On Going" ? "<span class='text-primary'>ON GOING</span>" : ($req->Status == "Completed" ? "<span class='text-success'>COMPLETED</span>" : ($req->Status == "Denied" ? "<span class='text-danger'>DENIED</span>" : ($req->Status == "Cancelled" ? "<span class='text-secondary'>CANCELLED</span>" : "<span class='text-info'>UNSERVICEABLE</span>")))) ?></h1>
                                     <div class="row g-3">
                                         <div class="col-lg-6">
                                             <label for="DateRequested" class="form-label">DateRequested</label>
@@ -152,7 +152,7 @@ if (isset($_GET["Request"])) {
 
                                         <div class="col-lg-12">
                                             <input type="hidden" name="AddRequest" />
-                                            <a class="btn btn-primary w-100" href="requestservice.php">Submit Another Request</a>
+                                            <a class="btn btn-primary w-100" href="request.php">Submit Another Request</a>
                                         </div>
                                         <div class="col-lg-12">
                                             <p class="small mb-0">

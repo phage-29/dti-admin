@@ -23,6 +23,13 @@
                 <span>Accomplishments</span>
             </a>
         </li><!-- End Profile Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="encoding.php">
+                <i class="bi bi-file-earmark-code"></i>
+                <span>Encoding</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
         <?php
         if ($acc->Role == "Admin") {
         ?>
