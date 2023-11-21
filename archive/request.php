@@ -29,7 +29,7 @@ require_once "components/header.php";
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Request Form</h5>
-                        <form action="includes/process.php" method="post" class="row g-3">
+                        <form action="includes/process.php" method="post" onsubmit="return showLoading()" class="row g-3">
                             <div class="col-lg-12">
                                 <label class="form-label">Email</label>
                                 <input type="email" class="form-control" name="Email" required>
@@ -70,7 +70,7 @@ require_once "components/header.php";
                             </div>
                             <div class="col-lg-6">
                                 <label class="form-label">Nature of Complaint/s</label>
-                                <select class="form-select" name="CategoryID" required>
+                                <select class="form-select" id="CategoryID2" name="CategoryID" required>
                                     <option value="" selected disabled>--</option>
                                     <?php
                                     $result = $conn->query("SELECT * FROM categories");
@@ -85,7 +85,7 @@ require_once "components/header.php";
 
                             <div class="col-lg-6">
                                 <label class="form-label">Complaint/s Category</label>
-                                <select class="form-select" name="SubCategoryID" required>
+                                <select class="form-select" id="SubCategoryID2" name="SubCategoryID" required>
                                     <option id="" value="" selected disabled>--</option>
                                     <?php
                                     $result = $conn->query("SELECT * FROM subcategories");
@@ -109,20 +109,20 @@ require_once "components/header.php";
                             <script>
                                 $(document).ready(function() {
                                     function filterSubCategories(categoryId) {
-                                        $('#SubCategoryID option').each(function() {
+                                        $('#SubCategoryID2 option').each(function() {
                                             if ($(this).data('categoryid') == categoryId || categoryId == "") {
                                                 $(this).show();
                                             } else {
                                                 $(this).hide();
                                             }
                                         });
-                                        $('#SubCategoryID').val('');
+                                        $('#SubCategoryID2').val('');
                                     }
-                                    $('#CategoryID').change(function() {
+                                    $('#CategoryID2').change(function() {
                                         var categoryId = $(this).val();
                                         filterSubCategories(categoryId);
                                     });
-                                    $('#CategoryID').trigger('change');
+                                    $('#CategoryID2').trigger('change');
                                 });
                             </script>
                             <div class="col-lg-12">

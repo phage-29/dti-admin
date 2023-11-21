@@ -117,3 +117,14 @@
   })
 
 })();
+
+function showLoading() {
+  Swal.fire({
+    title: 'Loading...',
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    onBeforeOpen: () => {
+      Swal.showLoading();
+    },
+  });
+}
