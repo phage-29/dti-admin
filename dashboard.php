@@ -35,6 +35,7 @@ require_once "components/sidebar.php";
                     data: [
                       <?php
                       $query = "SELECT
+                                    MONTH(`DateRequested`) AS `monthIndex`, 
                                     LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
                                     COUNT(*) AS `count_per_month`
                                 FROM
@@ -42,9 +43,9 @@ require_once "components/sidebar.php";
                                 WHERE
                                     YEAR(`DateRequested`) = YEAR(CURDATE())
                                 GROUP BY
-                                    `month`
+                                    `monthIndex`
                                 ORDER BY
-                                    `month`";
+                                    `monthIndex`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
                       ?> <?= $row->count_per_month ?>,
@@ -76,6 +77,7 @@ require_once "components/sidebar.php";
                     categories: [
                       <?php
                       $query = "SELECT
+                                    MONTH(`DateRequested`) AS `monthIndex`, 
                                     LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
                                     COUNT(*) AS `count_per_month`
                                 FROM
@@ -83,9 +85,9 @@ require_once "components/sidebar.php";
                                 WHERE
                                     YEAR(`DateRequested`) = YEAR(CURDATE())
                                 GROUP BY
-                                    `month`
+                                    `monthIndex`
                                 ORDER BY
-                                    `month`";
+                                    `monthIndex`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
                       ?> '<?= $row->month ?>',
@@ -190,7 +192,7 @@ require_once "components/sidebar.php";
                       show: false
                     }
                   },
-                  
+
                   tooltip: {
                     theme: 'dark',
                     x: {
