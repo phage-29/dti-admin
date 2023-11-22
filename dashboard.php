@@ -194,7 +194,7 @@ ORDER BY
                   ORDER BY c.Category";
                     $result = $conn->execute_query($query);
                     while ($row = $result->fetch_object()) {
-                    ?> '<?= $row->count_per_category ?>',
+                    ?> <?= $row->count_per_category ?>,
                     <?php
                     }
                     ?>
