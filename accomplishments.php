@@ -45,12 +45,13 @@ require_once "components/sidebar.php";
                             </thead>
                             <tbody>
                                 <?php
-                                $result = $conn->query("SELECT * FROM helpdesks WHERE ServicedBy=$acc->id ORDER BY DateRequested ASC");
+                                $Ym = date('Ym');
+                                $result = $conn->query("SELECT * FROM helpdesks WHERE ServicedBy=$acc->id AND DATE_FORMAT(DateRequested, '%Y%m') = '$Ym' ORDER BY DateRequested ASC");
                                 while ($row = $result->fetch_object()) {
                                 ?>
                                     <tr>
                                         <td class="text-nowrap">
-                                            <?= date_format(date_create($row->CreatedAt), 'd/m/Y') ?>
+                                            <?= date_format(date_create($row->DateRequested), 'd/m/Y') ?>
                                         </td>
                                         <td class="text-nowrap">
                                             <?= $conn->query("SELECT * FROM divisions WHERE id='" . $row->DivisionID . "'")->fetch_object()->Division ?>
