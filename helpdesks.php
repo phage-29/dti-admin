@@ -164,6 +164,16 @@ require_once "components/sidebar.php";
                         <label for="Complaints" class="form-label">Defects/Complaints</label>
                         <textarea class="form-control" id="Complaints" name="Complaints" disabled></textarea>
                       </div>
+
+                      <div class="col-lg-6">
+                        <label for="DatePreferred" class="form-label">Preferred Date</label>
+                        <input type="date" class="form-control" id="DatePreferred" name="DatePreferred" disabled>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <label for="TimePreferred" class="form-label">Preferred Time</label>
+                        <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" disabled>
+                      </div>
                       <hr>
                       <form action="includes/process.php" method="POST" class="row m-0 p-0" id="Form">
                         <input type="hidden" id="id" name="id">
@@ -207,6 +217,15 @@ require_once "components/sidebar.php";
                           <select class="form-select" id="RepairType" name="RepairType" required>
                             <option value="Minor">Minor</option>
                             <option value="Major">Major</option>
+                          </select>
+                        </div>
+                        <div class="col-lg-12">
+                          <label for="RepairClassification" class="form-label">RepairClassification</label>
+                          <select class="form-select" id="RepairClassification" name="RepairClassification" required>
+                            <option value="Simple">Simple</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Complex">Complex</option>
+                            <option value="Highly Technical">Highly Technical</option>
                           </select>
                         </div>
                         <div class="col-lg-6">
@@ -297,11 +316,14 @@ require_once "components/sidebar.php";
                       $('#SubCategoryID').val(response.SubCategoryID);
                       $('#RequestNo').val(response.RequestNo);
                       $('#Complaints').val(response.Complaints);
+                      $('#DatePreferred').val(response.DatePreferred);
+                      $('#TimePreferred').val(response.TimePreferred);
                       $('#Status').val(response.Status);
                       $('#DateReceived').val(response.DateReceived);
                       $('#ReceivedBy').val(response.ReceivedBy);
                       $('#DateScheduled').val(response.DateScheduled);
                       $('#RepairType').val(response.RepairType);
+                      $('#RepairClassification').val(response.RepairClassification);
                       $('#DatetimeStarted').val(response.DatetimeStarted);
                       $('#DatetimeFinished').val(response.DatetimeFinished);
                       $('#Diagnosis').val(response.Diagnosis);

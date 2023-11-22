@@ -329,8 +329,9 @@ if (isset($_POST['UpdateRequest'])) {
     $Status = $conn->real_escape_string($_POST['Status']);
     $DateReceived = !empty($_POST['DateReceived']) ? date('Y-m-d', strtotime($_POST['DateReceived'])) : null;
     $ReceivedBy = $_POST['ReceivedBy'] ?? null;
-    $DateScheduled = !empty($_POST['DatetimeScheduled']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeScheduled'])) : null;
+    $DateScheduled = !empty($_POST['DateScheduled']) ? date('Y-m-d H:i:s', strtotime($_POST['DateScheduled'])) : null;
     $RepairType = $conn->real_escape_string($_POST['RepairType']);
+    $RepairClassification = $conn->real_escape_string($_POST['RepairClassification']);
     $DatetimeStarted = !empty($_POST['DatetimeStarted']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeStarted'])) : null;
     $DatetimeFinished = !empty($_POST['DatetimeFinished']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeFinished'])) : null;
     $Diagnosis = $conn->real_escape_string($_POST['Diagnosis']);
@@ -356,6 +357,7 @@ if (isset($_POST['UpdateRequest'])) {
                     CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
                     h.`DateScheduled`,
                     h.`RepairType`,
+                    h.`RepairClassification`,
                     h.`DatetimeStarted`,
                     h.`DatetimeFinished`,
                     h.`Diagnosis`,
@@ -376,8 +378,8 @@ if (isset($_POST['UpdateRequest'])) {
 
         if ($result->num_rows) {
             try {
-                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `DateScheduled`=?, `RepairType`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
-                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
+                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `DateScheduled`=?, `RepairType`=?, `RepairClassification`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
+                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $RepairClassification, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
 
                 if ($updateResult) {
                     while ($row = $result->fetch_object()) {
