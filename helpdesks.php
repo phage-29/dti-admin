@@ -93,19 +93,19 @@ require_once "components/sidebar.php";
               </thead>
               <tbody>
                 <?php
-                $query = isset($_GET['FilterStatus']) ? "SELECT * FROM helpdesks WHERE Status='" . $_GET['FilterStatus'] . "' ORDER BY id DESC" : "SELECT * FROM helpdesks ORDER BY id DESC";
+                $query = isset($_GET['FilterStatus']) ? "SELECT * FROM helpdesks WHERE Status='" . $_GET['FilterStatus'] . "' ORDER BY RequestNo DESC" : "SELECT * FROM helpdesks ORDER BY RequestNo DESC";
                 $result = $conn->query($query);
                 while ($row = $result->fetch_object()) {
                 ?>
                   <tr>
-                    <td scope="row"><?= $row->RequestNo ?></td>
-                    <td><?= $row->FirstName . ' ' . $row->LastName ?></td>
-                    <td><?= $row->Email ?></td>
-                    <td><?= $conn->query("SELECT * FROM divisions WHERE id='" . $row->DivisionID . "'")->fetch_object()->Division ?></td>
-                    <td><?= $row->DateRequested ?></td>
-                    <td><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
-                    <td><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
-                    <td class="<?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
+                    <td class="text-nowrap" scope="row"><?= $row->RequestNo ?></td>
+                    <td class="text-nowrap"><?= $row->FirstName . ' ' . $row->LastName ?></td>
+                    <td class="text-nowrap"><?= $row->Email ?></td>
+                    <td class="text-nowrap"><?= $conn->query("SELECT * FROM divisions WHERE id='" . $row->DivisionID . "'")->fetch_object()->Division ?></td>
+                    <td class="text-nowrap"><?= $row->DateRequested ?></td>
+                    <td class="text-nowrap"><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
+                    <td class="text-nowrap"><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
+                    <td class="text-nowrap <?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
                   </tr>
                 <?php
                 }
@@ -269,7 +269,7 @@ require_once "components/sidebar.php";
               $(document).ready(function() {
                 var dataTable = new DataTable('#table', {
                   responsive: true,
-                  aasorting: [],
+                  aaSorting: [],
                 });
 
                 $('#table').fadeIn(500);
