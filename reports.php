@@ -101,19 +101,104 @@ require_once "components/sidebar.php";
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Helpdesks</h5>
+                        <div class=" mb-3 text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+                                Filter Table
+                            </button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
 
-                        <!-- Table with stripped rows -->
-                        <div class="row">
-                            <script>
-                                $(document).ready(function() {
-                                    // Attach change event to both date inputs
-                                    $("#DateFrom, #DateTo").change(function() {
-                                        // Trigger form submission
-                                        $("#myForm").submit();
-                                    });
-                                });
-                            </script>
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="filterModalLabel">Filter Form</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
 
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <form class="small">
+                                            <div class="mb-3">
+                                                <label for="s tartDate" class="form-label">From Date:</label>
+                                                <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Select From Date" autocomplete="off">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="endDate" class="form-label">To Date:</label>
+                                                <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Select To Date" autocomplete="off">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="category" class="form-label">Category:</label>
+                                                <select class="form-select" id="category" name="category">
+                                                    <option value="" selected disabled>--</option>
+                                                    <?php
+                                                    $result = $conn->query("SELECT * FROM categories");
+                                                    while ($row = $result->fetch_object()) {
+                                                    ?>
+                                                        <option value="<?= $row->id ?>"><?= $row->Category ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="subCategory" class="form-label">Sub Category:</label>
+                                                <select class="form-select" id="subCategory" name="subCategory">
+                                                    <option id="" value="" selected disabled>--</option>
+                                                    <?php
+                                                    $result = $conn->query("SELECT * FROM subcategories");
+                                                    while ($row = $result->fetch_object()) {
+                                                    ?>
+                                                        <option data-categoryid="<?= $row->CategoryID ?>" value="<?= $row->id ?>"><?= $row->SubCategory ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    function filterSubCategories(categoryId) {
+                                                        $('#SubCategoryID option').each(function() {
+                                                            if ($(this).data('categoryid') == categoryId || categoryId == "") {
+                                                                $(this).show();
+                                                            } else {
+                                                                $(this).hide();
+                                                            }
+                                                        });
+                                                        $('#SubCategoryID').val('');
+                                                    }
+                                                    $('#CategoryID').change(function() {
+                                                        var categoryId = $(this).val();
+                                                        filterSubCategories(categoryId);
+                                                    });
+                                                    $('#CategoryID').trigger('change');
+                                                });
+                                            </script>
+                                            <div class="mb-3">
+                                                <label for="status" class="form-label">Status:</label>
+                                                <select class="form-select" id="status" name="status">
+                                                    <option id="" value="" selected disabled>--</option>
+                                                    <option value="Pending" class="text-warning">Pending</option>
+                                                    <option value="On Going" class="text-primary">On Going</option>
+                                                    <option value="Completed" class="text-success">Completed</option>
+                                                    <option value="Denied" class="text-danger">Denied</option>
+                                                    <option value="Cancelled" class="text-secondary">Cancelled</option>
+                                                    <option value="Unserviceable" class="text-info">Unserviceable</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="endDate" class="form-label"></label>
+                                                <input type="hidden" name="Filter" />
+                                                <button type="submit" class="form-control btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <table class="w-100 small" id="table">
                             <thead>
@@ -220,7 +305,24 @@ require_once "components/sidebar.php";
                                         )
                                     )
                                 )
-                            END AS TurnAroundTime FROM helpdesks ORDER BY id DESC";
+                            END AS TurnAroundTime FROM helpdesks ";
+                                if (isset($_GET['Filter'])) {
+                                    $where = [];
+                                    if (!empty($_GET['startDate']) and !empty($_GET['endDate'])) {
+                                        array_push($where, "DateRequested BETWEEN '" . $_GET['startDate'] . "' AND '" . $_GET['endDate'] . "'");
+                                    }
+                                    if (!empty($_GET['category'])) {
+                                        array_push($where, " CategoryID = " . $_GET['category']);
+                                    }
+                                    if (!empty($_GET['subCategory'])) {
+                                        array_push($where, "SubCategoryID = " . $_GET['subCategory']);
+                                    }
+                                    if (!empty($_GET['status'])) {
+                                        array_push($where, "Status = " . $_GET['status']);
+                                    }
+                                    $query .= "WHERE " . implode(" AND ", $where);
+                                }
+                                $query .= " ORDER BY id DESC";
                                 $result = $conn->query($query);
                                 while ($row = $result->fetch_object()) {
                                 ?>
