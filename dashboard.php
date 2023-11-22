@@ -44,16 +44,16 @@ require_once "components/sidebar.php";
                     labels: [
                       <?php
                       $query = "SELECT
-    LEFT(MONTHNAME(DateRequested), 3) AS month,
-    COUNT(*) AS count_per_month
+    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
+    COUNT(*) AS `count_per_month`
 FROM
-    helpdesks
+    `helpdesks`
 WHERE
-    YEAR(DateRequested) = YEAR(CURDATE())
+    YEAR(`DateRequested`) = YEAR(CURDATE())
 GROUP BY
-    MONTH(DateRequested)
+    `month`
 ORDER BY
-    MONTH(DateRequested);";
+    `month`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
                       ?> '<?= $row->month ?>',
@@ -66,16 +66,16 @@ ORDER BY
                       data: [
                         <?php
                         $query = "SELECT
-    LEFT(MONTHNAME(DateRequested), 3) AS month,
-    COUNT(*) AS count_per_month
+    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
+    COUNT(*) AS `count_per_month`
 FROM
-    helpdesks
+    `helpdesks`
 WHERE
-    YEAR(DateRequested) = YEAR(CURDATE())
+    YEAR(`DateRequested`) = YEAR(CURDATE())
 GROUP BY
-    MONTH(DateRequested)
+    `month`
 ORDER BY
-    MONTH(DateRequested);";
+    `month`";
                         $result = $conn->execute_query($query);
                         while ($row = $result->fetch_object()) {
                         ?> '<?= $row->count_per_month ?>',
@@ -119,11 +119,11 @@ ORDER BY
                     labels: [
                       <?php
                       $query = "SELECT
-                        d.Division,
-                        COUNT(h.`DivisionID`) AS count_per_division
-                    FROM helpdesks h
-                        LEFT JOIN divisions d ON h.`DivisionID` = d.id
-                    GROUP BY d.Division
+                        d.`Division`,
+                        COUNT(h.`DivisionID`) AS `count_per_division`
+                    FROM `helpdesks` h
+                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                    GROUP BY d.`Division`
                     ORDER BY d.`Division`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
@@ -137,11 +137,11 @@ ORDER BY
                       data: [
                         <?php
                         $query = "SELECT
-                        d.Division,
-                        COUNT(h.`DivisionID`) AS count_per_division
-                    FROM helpdesks h
-                        LEFT JOIN divisions d ON h.`DivisionID` = d.id
-                    GROUP BY d.Division
+                        d.`Division`,
+                        COUNT(h.`DivisionID`) AS `count_per_division`
+                    FROM `helpdesks` h
+                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                    GROUP BY d.`Division`
                     ORDER BY d.`Division`";
                         $result = $conn->execute_query($query);
                         while ($row = $result->fetch_object()) {
