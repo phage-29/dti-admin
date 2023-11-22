@@ -22,7 +22,7 @@ require_once "components/sidebar.php";
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Line Chart</h5>
+            <h5 class="card-title">Count Per Month</h5>
 
             <!-- Line Chart -->
             <div id="lineChart"></div>
@@ -106,7 +106,7 @@ ORDER BY
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Bar Chart</h5>
+            <h5 class="card-title">Count Per Division</h5>
 
             <!-- Bar Chart -->
             <div id="barChart"></div>
@@ -175,7 +175,7 @@ ORDER BY
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Pie Chart</h5>
+            <h5 class="card-title">Count Per Category</h5>
 
             <!-- Pie Chart -->
             <div id="pieChart"></div>
@@ -234,7 +234,7 @@ ORDER BY
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Donut Chart</h5>
+            <h5 class="card-title">Count Per Status</h5>
 
             <!-- Donut Chart -->
             <div id="donutChart"></div>
