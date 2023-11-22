@@ -21,48 +21,19 @@ require_once "components/sidebar.php";
     <div class="row">
       <div class="col-lg-12">
 
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Announcements</h5>
-            <p>No Announcements.</p>
-          </div>
-        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Line Chart</h5>
 
-      </div>
-      <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Line Chart</h5>
+              <!-- Line Chart -->
+              <div id="lineChart"></div>
 
-            <!-- Line Chart -->
-            <canvas id="lineChart" style="max-height: 400px;"></canvas>
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                new Chart(document.querySelector('#lineChart'), {
-                  type: 'line',
-                  data: {
-                    labels: [
-                      <?php
-                      $query = "SELECT
-    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
-    COUNT(*) AS `count_per_month`
-FROM
-    `helpdesks`
-WHERE
-    YEAR(`DateRequested`) = YEAR(CURDATE())
-GROUP BY
-    `month`
-ORDER BY
-    `month`";
-                      $result = $conn->execute_query($query);
-                      while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->month ?>',
-                      <?php
-                      }
-                      ?>
-                    ],
-                    datasets: [{
-                      label: 'Count per month',
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#lineChart"), {
+                    series: [{
+                      name: "Desktops",
                       data: [
                         <?php
                         $query = "SELECT
@@ -82,58 +53,70 @@ ORDER BY
                         <?php
                         }
                         ?>
-                      ],
-                      fill: false,
-                      borderColor: 'rgb(75, 192, 192)',
-                      tension: 0.1
-                    }]
-                  },
-                  options: {
-                    scales: {
-                      y: {
-                        beginAtZero: true
+                      ]
+                    }],
+                    chart: {
+                      height: 350,
+                      type: 'line',
+                      zoom: {
+                        enabled: false
                       }
+                    },
+                    dataLabels: {
+                      enabled: false
+                    },
+                    stroke: {
+                      curve: 'straight'
+                    },
+                    grid: {
+                      row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                      },
+                    },
+                    xaxis: {
+                      categories: [
+                        <?php
+                        $query = "SELECT
+    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
+    COUNT(*) AS `count_per_month`
+FROM
+    `helpdesks`
+WHERE
+    YEAR(`DateRequested`) = YEAR(CURDATE())
+GROUP BY
+    `month`
+ORDER BY
+    `month`";
+                        $result = $conn->execute_query($query);
+                        while ($row = $result->fetch_object()) {
+                        ?> '<?= $row->month ?>',
+                        <?php
+                        }
+                        ?>
+                      ],
                     }
-                  }
+                  }).render();
                 });
-              });
-            </script>
-            <!-- End Line CHart -->
+              </script>
+              <!-- End Line Chart -->
 
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Bar CHart</h5>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Bar Chart</h5>
 
-            <!-- Bar Chart -->
-            <canvas id="barChart" style="max-height: 400px;"></canvas>
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                new Chart(document.querySelector('#barChart'), {
-                  type: 'bar',
-                  data: {
-                    labels: [
-                      <?php
-                      $query = "SELECT
-                        d.`Division`,
-                        COUNT(h.`DivisionID`) AS `count_per_division`
-                    FROM `helpdesks` h
-                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
-                    GROUP BY d.`Division`
-                    ORDER BY d.`Division`";
-                      $result = $conn->execute_query($query);
-                      while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->Division ?>',
-                      <?php
-                      }
-                      ?>
-                    ],
-                    datasets: [{
-                      label: 'Count per Division',
+              <!-- Bar Chart -->
+              <div id="barChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#barChart"), {
+                    series: [{
                       data: [
                         <?php
                         $query = "SELECT
@@ -149,56 +132,82 @@ ORDER BY
                         <?php
                         }
                         ?>
-                      ],
-                      backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 205, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(201, 203, 207, 0.2)'
-                      ],
-                      borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(255, 159, 64)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)',
-                        'rgb(54, 162, 235)',
-                        'rgb(153, 102, 255)',
-                        'rgb(201, 203, 207)'
-                      ],
-                      borderWidth: 1
-                    }]
-                  },
-                  options: {
-                    scales: {
-                      y: {
-                        beginAtZero: true
+                      ]
+                    }],
+                    chart: {
+                      type: 'bar',
+                      height: 350
+                    },
+                    plotOptions: {
+                      bar: {
+                        borderRadius: 4,
+                        horizontal: true,
                       }
+                    },
+                    dataLabels: {
+                      enabled: false
+                    },
+                    xaxis: {
+                      categories: [
+                        <?php
+                        $query = "SELECT
+                        d.`Division`,
+                        COUNT(h.`DivisionID`) AS `count_per_division`
+                    FROM `helpdesks` h
+                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                    GROUP BY d.`Division`
+                    ORDER BY d.`Division`";
+                        $result = $conn->execute_query($query);
+                        while ($row = $result->fetch_object()) {
+                        ?> '<?= $row->Division ?>',
+                        <?php
+                        }
+                        ?>
+                      ],
                     }
-                  }
+                  }).render();
                 });
-              });
-            </script>
-            <!-- End Bar CHart -->
+              </script>
+              <!-- End Bar Chart -->
 
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Pie Chart</h5>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Pie Chart</h5>
 
-            <!-- Pie Chart -->
-            <canvas id="pieChart" style="max-height: 400px;"></canvas>
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                new Chart(document.querySelector('#pieChart'), {
-                  type: 'pie',
-                  data: {
+              <!-- Pie Chart -->
+              <div id="pieChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#pieChart"), {
+                    series: [
+                      <?php
+                      $query = "SELECT
+                      c.Category,
+                      COUNT(h.CategoryID) AS count_per_category
+                  FROM helpdesks h
+                      LEFT JOIN categories c ON h.`CategoryID` = c.id
+                  GROUP BY c.Category
+                  ORDER BY c.Category";
+                      $result = $conn->execute_query($query);
+                      while ($row = $result->fetch_object()) {
+                      ?> '<?= $row->count_per_category ?>',
+                      <?php
+                      }
+                      ?>
+                    ],
+                    chart: {
+                      height: 350,
+                      type: 'pie',
+                      toolbar: {
+                        show: true
+                      }
+                    },
                     labels: [
                       <?php
                       $query = "SELECT
@@ -214,53 +223,49 @@ ORDER BY
                       <?php
                       }
                       ?>
-                    ],
-                    datasets: [{
-                      label: 'My First Dataset',
-                      data: [
-                        <?php
-                        $query = "SELECT
-                      c.Category,
-                      COUNT(h.CategoryID) AS count_per_category
-                  FROM helpdesks h
-                      LEFT JOIN categories c ON h.`CategoryID` = c.id
-                  GROUP BY c.Category
-                  ORDER BY c.Category";
-                        $result = $conn->execute_query($query);
-                        while ($row = $result->fetch_object()) {
-                        ?> '<?= $row->count_per_category ?>',
-                        <?php
-                        }
-                        ?>
-                      ],
-                      backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                      ],
-                      hoverOffset: 4
-                    }]
-                  }
+                    ]
+                  }).render();
                 });
-              });
-            </script>
-            <!-- End Pie CHart -->
+              </script>
+              <!-- End Pie Chart -->
 
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Doughnut Chart</h5>
 
-            <!-- Doughnut Chart -->
-            <canvas id="doughnutChart" style="max-height: 400px;"></canvas>
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                new Chart(document.querySelector('#doughnutChart'), {
-                  type: 'doughnut',
-                  data: {
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Donut Chart</h5>
+
+              <!-- Donut Chart -->
+              <div id="donutChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#donutChart"), {
+                    series: [
+                      <?php
+                      $query = "SELECT
+    Status,
+    COUNT(Status) AS count_per_status
+FROM helpdesks
+GROUP BY `Status`
+ORDER BY `Status`";
+                      $result = $conn->execute_query($query);
+                      while ($row = $result->fetch_object()) {
+                      ?> '<?= $row->count_per_status ?>',
+                      <?php
+                      }
+                      ?>
+                    ],
+                    chart: {
+                      height: 350,
+                      type: 'donut',
+                      toolbar: {
+                        show: true
+                      }
+                    },
                     labels: [
                       <?php
                       $query = "SELECT
@@ -276,40 +281,15 @@ ORDER BY `Status`";
                       }
                       ?>
                     ],
-                    datasets: [{
-                      label: 'My First Dataset',
-                      data: [
-                        <?php
-                        $query = "SELECT
-    Status,
-    COUNT(Status) AS count_per_status
-FROM helpdesks
-GROUP BY `Status`
-ORDER BY `Status`";
-                        $result = $conn->execute_query($query);
-                        while ($row = $result->fetch_object()) {
-                        ?> '<?= $row->count_per_status ?>',
-                        <?php
-                        }
-                        ?>
-                      ],
-                      backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                      ],
-                      hoverOffset: 4
-                    }]
-                  }
+                  }).render();
                 });
-              });
-            </script>
-            <!-- End Doughnut CHart -->
+              </script>
+              <!-- End Donut Chart -->
 
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
 
 </main><!-- End #main -->
