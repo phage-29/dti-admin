@@ -19,24 +19,22 @@ require_once "components/sidebar.php";
 
   <section class="section">
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Line Chart</h5>
 
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Line Chart</h5>
+            <!-- Line Chart -->
+            <div id="lineChart"></div>
 
-              <!-- Line Chart -->
-              <div id="lineChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#lineChart"), {
-                    series: [{
-                      name: "Desktops",
-                      data: [
-                        <?php
-                        $query = "SELECT
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                new ApexCharts(document.querySelector("#lineChart"), {
+                  series: [{
+                    name: "Desktops",
+                    data: [
+                      <?php
+                      $query = "SELECT
     LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
     COUNT(*) AS `count_per_month`
 FROM
@@ -47,249 +45,249 @@ GROUP BY
     `month`
 ORDER BY
     `month`";
-                        $result = $conn->execute_query($query);
-                        while ($row = $result->fetch_object()) {
-                        ?> '<?= $row->count_per_month ?>',
-                        <?php
-                        }
-                        ?>
-                      ]
-                    }],
-                    chart: {
-                      height: 350,
-                      type: 'line',
-                      zoom: {
-                        enabled: false
-                      }
-                    },
-                    dataLabels: {
-                      enabled: false
-                    },
-                    stroke: {
-                      curve: 'straight'
-                    },
-                    grid: {
-                      row: {
-                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                        opacity: 0.5
-                      },
-                    },
-                    xaxis: {
-                      categories: [
-                        <?php
-                        $query = "SELECT
-    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
-    COUNT(*) AS `count_per_month`
-FROM
-    `helpdesks`
-WHERE
-    YEAR(`DateRequested`) = YEAR(CURDATE())
-GROUP BY
-    `month`
-ORDER BY
-    `month`";
-                        $result = $conn->execute_query($query);
-                        while ($row = $result->fetch_object()) {
-                        ?> '<?= $row->month ?>',
-                        <?php
-                        }
-                        ?>
-                      ],
-                    }
-                  }).render();
-                });
-              </script>
-              <!-- End Line Chart -->
-
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Bar Chart</h5>
-
-              <!-- Bar Chart -->
-              <div id="barChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#barChart"), {
-                    series: [{
-                      data: [
-                        <?php
-                        $query = "SELECT
-                        d.`Division`,
-                        COUNT(h.`DivisionID`) AS `count_per_division`
-                    FROM `helpdesks` h
-                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
-                    GROUP BY d.`Division`
-                    ORDER BY d.`Division`";
-                        $result = $conn->execute_query($query);
-                        while ($row = $result->fetch_object()) {
-                        ?> '<?= $row->count_per_division ?>',
-                        <?php
-                        }
-                        ?>
-                      ]
-                    }],
-                    chart: {
-                      type: 'bar',
-                      height: 350
-                    },
-                    plotOptions: {
-                      bar: {
-                        borderRadius: 4,
-                        horizontal: true,
-                      }
-                    },
-                    dataLabels: {
-                      enabled: false
-                    },
-                    xaxis: {
-                      categories: [
-                        <?php
-                        $query = "SELECT
-                        d.`Division`,
-                        COUNT(h.`DivisionID`) AS `count_per_division`
-                    FROM `helpdesks` h
-                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
-                    GROUP BY d.`Division`
-                    ORDER BY d.`Division`";
-                        $result = $conn->execute_query($query);
-                        while ($row = $result->fetch_object()) {
-                        ?> '<?= $row->Division ?>',
-                        <?php
-                        }
-                        ?>
-                      ],
-                    }
-                  }).render();
-                });
-              </script>
-              <!-- End Bar Chart -->
-
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Pie Chart</h5>
-
-              <!-- Pie Chart -->
-              <div id="pieChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#pieChart"), {
-                    series: [
-                      <?php
-                      $query = "SELECT
-                      c.Category,
-                      COUNT(h.CategoryID) AS count_per_category
-                  FROM helpdesks h
-                      LEFT JOIN categories c ON h.`CategoryID` = c.id
-                  GROUP BY c.Category
-                  ORDER BY c.Category";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->count_per_category ?>',
-                      <?php
-                      }
-                      ?>
-                    ],
-                    chart: {
-                      height: 350,
-                      type: 'pie',
-                      toolbar: {
-                        show: true
-                      }
-                    },
-                    labels: [
-                      <?php
-                      $query = "SELECT
-                      c.Category,
-                      COUNT(h.CategoryID) AS count_per_category
-                  FROM helpdesks h
-                      LEFT JOIN categories c ON h.`CategoryID` = c.id
-                  GROUP BY c.Category
-                  ORDER BY c.Category";
-                      $result = $conn->execute_query($query);
-                      while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->Category ?>',
+                      ?> '<?= $row->count_per_month ?>',
                       <?php
                       }
                       ?>
                     ]
-                  }).render();
-                });
-              </script>
-              <!-- End Pie Chart -->
-
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Donut Chart</h5>
-
-              <!-- Donut Chart -->
-              <div id="donutChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#donutChart"), {
-                    series: [
-                      <?php
-                      $query = "SELECT
-    Status,
-    COUNT(Status) AS count_per_status
-FROM helpdesks
-GROUP BY `Status`
-ORDER BY `Status`";
-                      $result = $conn->execute_query($query);
-                      while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->count_per_status ?>',
-                      <?php
-                      }
-                      ?>
-                    ],
-                    chart: {
-                      height: 350,
-                      type: 'donut',
-                      toolbar: {
-                        show: true
-                      }
+                  }],
+                  chart: {
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                      enabled: false
+                    }
+                  },
+                  dataLabels: {
+                    enabled: false
+                  },
+                  stroke: {
+                    curve: 'straight'
+                  },
+                  grid: {
+                    row: {
+                      colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                      opacity: 0.5
                     },
-                    labels: [
+                  },
+                  xaxis: {
+                    categories: [
                       <?php
                       $query = "SELECT
-    Status,
-    COUNT(Status) AS count_per_status
-FROM helpdesks
-GROUP BY `Status`
-ORDER BY `Status`";
+    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
+    COUNT(*) AS `count_per_month`
+FROM
+    `helpdesks`
+WHERE
+    YEAR(`DateRequested`) = YEAR(CURDATE())
+GROUP BY
+    `month`
+ORDER BY
+    `month`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->Status ?>',
+                      ?> '<?= $row->month ?>',
                       <?php
                       }
                       ?>
                     ],
-                  }).render();
-                });
-              </script>
-              <!-- End Donut Chart -->
+                  }
+                }).render();
+              });
+            </script>
+            <!-- End Line Chart -->
 
-            </div>
           </div>
         </div>
       </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Bar Chart</h5>
+
+            <!-- Bar Chart -->
+            <div id="barChart"></div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                new ApexCharts(document.querySelector("#barChart"), {
+                  series: [{
+                    data: [
+                      <?php
+                      $query = "SELECT
+                        d.`Division`,
+                        COUNT(h.`DivisionID`) AS `count_per_division`
+                    FROM `helpdesks` h
+                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                    GROUP BY d.`Division`
+                    ORDER BY d.`Division`";
+                      $result = $conn->execute_query($query);
+                      while ($row = $result->fetch_object()) {
+                      ?> '<?= $row->count_per_division ?>',
+                      <?php
+                      }
+                      ?>
+                    ]
+                  }],
+                  chart: {
+                    type: 'bar',
+                    height: 350
+                  },
+                  plotOptions: {
+                    bar: {
+                      borderRadius: 4,
+                      horizontal: true,
+                    }
+                  },
+                  dataLabels: {
+                    enabled: false
+                  },
+                  xaxis: {
+                    categories: [
+                      <?php
+                      $query = "SELECT
+                        d.`Division`,
+                        COUNT(h.`DivisionID`) AS `count_per_division`
+                    FROM `helpdesks` h
+                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                    GROUP BY d.`Division`
+                    ORDER BY d.`Division`";
+                      $result = $conn->execute_query($query);
+                      while ($row = $result->fetch_object()) {
+                      ?> '<?= $row->Division ?>',
+                      <?php
+                      }
+                      ?>
+                    ],
+                  }
+                }).render();
+              });
+            </script>
+            <!-- End Bar Chart -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Pie Chart</h5>
+
+            <!-- Pie Chart -->
+            <div id="pieChart"></div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                new ApexCharts(document.querySelector("#pieChart"), {
+                  series: [
+                    <?php
+                    $query = "SELECT
+                      c.Category,
+                      COUNT(h.CategoryID) AS count_per_category
+                  FROM helpdesks h
+                      LEFT JOIN categories c ON h.`CategoryID` = c.id
+                  GROUP BY c.Category
+                  ORDER BY c.Category";
+                    $result = $conn->execute_query($query);
+                    while ($row = $result->fetch_object()) {
+                    ?> '<?= $row->count_per_category ?>',
+                    <?php
+                    }
+                    ?>
+                  ],
+                  chart: {
+                    height: 350,
+                    type: 'pie',
+                    toolbar: {
+                      show: true
+                    }
+                  },
+                  labels: [
+                    <?php
+                    $query = "SELECT
+                      c.Category,
+                      COUNT(h.CategoryID) AS count_per_category
+                  FROM helpdesks h
+                      LEFT JOIN categories c ON h.`CategoryID` = c.id
+                  GROUP BY c.Category
+                  ORDER BY c.Category";
+                    $result = $conn->execute_query($query);
+                    while ($row = $result->fetch_object()) {
+                    ?> '<?= $row->Category ?>',
+                    <?php
+                    }
+                    ?>
+                  ]
+                }).render();
+              });
+            </script>
+            <!-- End Pie Chart -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Donut Chart</h5>
+
+            <!-- Donut Chart -->
+            <div id="donutChart"></div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                new ApexCharts(document.querySelector("#donutChart"), {
+                  series: [
+                    <?php
+                    $query = "SELECT
+    Status,
+    COUNT(Status) AS count_per_status
+FROM helpdesks
+GROUP BY `Status`
+ORDER BY `Status`";
+                    $result = $conn->execute_query($query);
+                    while ($row = $result->fetch_object()) {
+                    ?> '<?= $row->count_per_status ?>',
+                    <?php
+                    }
+                    ?>
+                  ],
+                  chart: {
+                    height: 350,
+                    type: 'donut',
+                    toolbar: {
+                      show: true
+                    }
+                  },
+                  labels: [
+                    <?php
+                    $query = "SELECT
+    Status,
+    COUNT(Status) AS count_per_status
+FROM helpdesks
+GROUP BY `Status`
+ORDER BY `Status`";
+                    $result = $conn->execute_query($query);
+                    while ($row = $result->fetch_object()) {
+                    ?> '<?= $row->Status ?>',
+                    <?php
+                    }
+                    ?>
+                  ],
+                }).render();
+              });
+            </script>
+            <!-- End Donut Chart -->
+
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
 </main><!-- End #main -->
