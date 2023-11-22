@@ -2,12 +2,12 @@
 $servername = "localhost";
 
 //localhost
-// $username = "root";
-// $password = "DTIRegion6!+";
+$username = "root";
+$password = "DTIRegion6!+";
 
 // //r6itbpm
-$username = "zoomrequestadmin";
-$password = "!r7TG4WuxCRJUgoo";
+// $username = "zoomrequestadmin";
+// $password = "!r7TG4WuxCRJUgoo";
 
 $database = "msgitdb";
 
