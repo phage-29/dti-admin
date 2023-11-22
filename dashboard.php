@@ -35,19 +35,19 @@ require_once "components/sidebar.php";
                     data: [
                       <?php
                       $query = "SELECT
-    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
-    COUNT(*) AS `count_per_month`
-FROM
-    `helpdesks`
-WHERE
-    YEAR(`DateRequested`) = YEAR(CURDATE())
-GROUP BY
-    `month`
-ORDER BY
-    `month`";
+                                    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
+                                    COUNT(*) AS `count_per_month`
+                                FROM
+                                    `helpdesks`
+                                WHERE
+                                    YEAR(`DateRequested`) = YEAR(CURDATE())
+                                GROUP BY
+                                    `month`
+                                ORDER BY
+                                    `month`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->count_per_month ?>',
+                      ?> <?= $row->count_per_month ?>,
                       <?php
                       }
                       ?>
@@ -76,16 +76,16 @@ ORDER BY
                     categories: [
                       <?php
                       $query = "SELECT
-    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
-    COUNT(*) AS `count_per_month`
-FROM
-    `helpdesks`
-WHERE
-    YEAR(`DateRequested`) = YEAR(CURDATE())
-GROUP BY
-    `month`
-ORDER BY
-    `month`";
+                                    LEFT(MONTHNAME(`DateRequested`), 3) AS `month`,
+                                    COUNT(*) AS `count_per_month`
+                                FROM
+                                    `helpdesks`
+                                WHERE
+                                    YEAR(`DateRequested`) = YEAR(CURDATE())
+                                GROUP BY
+                                    `month`
+                                ORDER BY
+                                    `month`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
                       ?> '<?= $row->month ?>',
@@ -118,15 +118,15 @@ ORDER BY
                     data: [
                       <?php
                       $query = "SELECT
-                        d.`Division`,
-                        COUNT(h.`DivisionID`) AS `count_per_division`
-                    FROM `helpdesks` h
-                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
-                    GROUP BY d.`Division`
-                    ORDER BY d.`Division`";
+                                    d.`Division`,
+                                    COUNT(h.`DivisionID`) AS `count_per_division`
+                                FROM `helpdesks` h
+                                    LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                                GROUP BY d.`Division`
+                                ORDER BY d.`Division`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
-                      ?> '<?= $row->count_per_division ?>',
+                      ?> <?= $row->count_per_division ?>,
                       <?php
                       }
                       ?>
@@ -149,12 +149,12 @@ ORDER BY
                     categories: [
                       <?php
                       $query = "SELECT
-                        d.`Division`,
-                        COUNT(h.`DivisionID`) AS `count_per_division`
-                    FROM `helpdesks` h
-                        LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
-                    GROUP BY d.`Division`
-                    ORDER BY d.`Division`";
+                                    d.`Division`,
+                                    COUNT(h.`DivisionID`) AS `count_per_division`
+                                FROM `helpdesks` h
+                                    LEFT JOIN `divisions` d ON h.`DivisionID` = d.`id`
+                                GROUP BY d.`Division`
+                                ORDER BY d.`Division`";
                       $result = $conn->execute_query($query);
                       while ($row = $result->fetch_object()) {
                       ?> '<?= $row->Division ?>',
@@ -186,12 +186,12 @@ ORDER BY
                   series: [
                     <?php
                     $query = "SELECT
-                      c.Category,
-                      COUNT(h.CategoryID) AS count_per_category
-                  FROM helpdesks h
-                      LEFT JOIN categories c ON h.`CategoryID` = c.id
-                  GROUP BY c.Category
-                  ORDER BY c.Category";
+                                  c.Category,
+                                  COUNT(h.CategoryID) AS count_per_category
+                              FROM helpdesks h
+                                  LEFT JOIN categories c ON h.`CategoryID` = c.id
+                              GROUP BY c.Category
+                              ORDER BY c.Category";
                     $result = $conn->execute_query($query);
                     while ($row = $result->fetch_object()) {
                     ?> <?= $row->count_per_category ?>,
@@ -209,12 +209,12 @@ ORDER BY
                   labels: [
                     <?php
                     $query = "SELECT
-                      c.Category,
-                      COUNT(h.CategoryID) AS count_per_category
-                  FROM helpdesks h
-                      LEFT JOIN categories c ON h.`CategoryID` = c.id
-                  GROUP BY c.Category
-                  ORDER BY c.Category";
+                                  c.Category,
+                                  COUNT(h.CategoryID) AS count_per_category
+                              FROM helpdesks h
+                                  LEFT JOIN categories c ON h.`CategoryID` = c.id
+                              GROUP BY c.Category
+                              ORDER BY c.Category";
                     $result = $conn->execute_query($query);
                     while ($row = $result->fetch_object()) {
                     ?> '<?= $row->Category ?>',
@@ -245,14 +245,14 @@ ORDER BY
                   series: [
                     <?php
                     $query = "SELECT
-    Status,
-    COUNT(Status) AS count_per_status
-FROM helpdesks
-GROUP BY `Status`
-ORDER BY `Status`";
+                                  Status,
+                                  COUNT(Status) AS count_per_status
+                              FROM helpdesks
+                              GROUP BY `Status`
+                              ORDER BY `Status`";
                     $result = $conn->execute_query($query);
                     while ($row = $result->fetch_object()) {
-                    ?> '<?= $row->count_per_status ?>',
+                    ?> <?= $row->count_per_status ?>,
                     <?php
                     }
                     ?>
@@ -267,11 +267,11 @@ ORDER BY `Status`";
                   labels: [
                     <?php
                     $query = "SELECT
-    Status,
-    COUNT(Status) AS count_per_status
-FROM helpdesks
-GROUP BY `Status`
-ORDER BY `Status`";
+                                  Status,
+                                  COUNT(Status) AS count_per_status
+                              FROM helpdesks
+                              GROUP BY `Status`
+                              ORDER BY `Status`";
                     $result = $conn->execute_query($query);
                     while ($row = $result->fetch_object()) {
                     ?> '<?= $row->Status ?>',
