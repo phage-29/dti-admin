@@ -177,21 +177,10 @@ require_once "components/sidebar.php";
                       <hr>
                       <form action="includes/process.php" method="POST" class="row m-0 p-0" id="Form">
                         <input type="hidden" id="id" name="id">
-                        <div class="col-lg-12">
-                          <label for="Status" class="form-label">Status</label>
-                          <select class="form-select" id="Status" name="Status" required>
-                            <option value="Pending" class="text-warning">Pending</option>
-                            <option value="On Going" class="text-primary">On Going</option>
-                            <option value="Completed" class="text-success">Completed</option>
-                            <option value="Denied" class="text-danger">Denied</option>
-                            <option value="Cancelled" class="text-secondary">Cancelled</option>
-                            <option value="Unserviceable" class="text-info">Unserviceable</option>
-                          </select>
-                        </div>
 
                         <div class="col-lg-6">
                           <label for="DateReceived" class="form-label">DateReceived</label>
-                          <input type="date" class="form-control" id="DateReceived" name="DateReceived" required>
+                          <input type="date" class="form-control" id="DateReceived" name="DateReceived" value="<?= date('Y-m-d') ?>" required>
                         </div>
 
                         <div class="col-lg-6">
@@ -210,7 +199,7 @@ require_once "components/sidebar.php";
                         </div>
                         <div class="col-lg-12">
                           <label for="DateScheduled" class="form-label">DateScheduled</label>
-                          <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" required>
+                          <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" value="<?= date('Y-m-d') ?>" required>
                         </div>
                         <div class="col-lg-12">
                           <label for="RepairType" class="form-label">RepairType</label>
@@ -270,6 +259,17 @@ require_once "components/sidebar.php";
                             <?php
                             }
                             ?>
+                          </select>
+                        </div>
+                        <div class="col-lg-12">
+                          <label for="Status" class="form-label">Status</label>
+                          <select class="form-select" id="Status" name="Status" required>
+                            <option value="Pending" class="text-warning">Pending</option>
+                            <option value="On Going" class="text-primary">On Going</option>
+                            <option value="Completed" class="text-success">Completed</option>
+                            <option value="Denied" class="text-danger">Denied</option>
+                            <option value="Cancelled" class="text-secondary">Cancelled</option>
+                            <option value="Unserviceable" class="text-info">Unserviceable</option>
                           </select>
                         </div>
                         <input type="hidden" name="UpdateRequest" />

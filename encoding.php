@@ -243,7 +243,7 @@ require_once "components/sidebar.php";
                                 <label>Search: <input type="search" name="Email" placeholder="Enter Email" value="<?= $_GET['Email'] ?? '' ?>" aria-controls="table"> <button class="bg-primary text-white"><i class="bi bi-search"></i></button></label>
                             </div>
                         </form> -->
-                        <table class="w-100" id="table" style="display: none">
+                        <table class="w-100" id="table">
                             <thead>
                                 <tr>
                                     <th class="text-nowrap" scope="col">Request No.</th>
@@ -280,12 +280,11 @@ require_once "components/sidebar.php";
                         <script>
                             $(document).ready(function() {
                                 var dataTable = new DataTable('#table', {
-                                    responsive: true,
                                     aaSorting: [],
                                     scrollX: true,
                                 });
 
-                                $('#table').fadeIn(500);
+                                // $('#table').fadeIn(500);
                             });
                         </script>
                     </div>
