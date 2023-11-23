@@ -382,7 +382,43 @@ if (isset($_POST['UpdateRequest'])) {
                 $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $RepairClassification, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
 
                 if ($updateResult) {
-                    while ($row = $result->fetch_object()) {
+                    $query2 = "SELECT
+                    h.`id`,
+                    h.`RequestNo`,
+                    h.`FirstName`,
+                    h.`LastName`,
+                    h.`Email`,
+                    d.Division as `Division`,
+                    h.`DateRequested`,
+                    h.`RequestType`,
+                    h.`PropertyNo`,
+                    c.Category as `Category`,
+                    sc.SubCategory as `SubCategory`,
+                    h.`Complaints`,
+                    h.`DateReceived`,
+                    CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
+                    h.`DateScheduled`,
+                    h.`RepairType`,
+                    h.`RepairClassification`,
+                    h.`DatetimeStarted`,
+                    h.`DatetimeFinished`,
+                    h.`Diagnosis`,
+                    h.`Remarks`,
+                    CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
+                    CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
+                    h.`Status`,
+                    h.`CreatedAt`,
+                    h.`UpdatedAt`
+                FROM helpdesks h
+                    LEFT JOIN divisions d ON h.`DivisionID` = d.id
+                    LEFT JOIN categories c ON h.`CategoryID` = c.id
+                    LEFT JOIN subcategories sc ON h.`SubCategoryID` = sc.id
+                    LEFT JOIN users u1 ON h.`ReceivedBy` = u1.id
+                    LEFT JOIN users u2 ON h.`ServicedBy` = u2.id
+                    LEFT JOIN users u3 ON h.`ApprovedBy` = u3.id WHERE h.id=?";
+                    $result2 = $conn->execute_query($query2, [$id]);
+
+                    while ($row = $result2->fetch_object()) {
                         $Subject = 'Ticket ' . $row->Status . ' - Request No. ' . $row->RequestNo;
 
                         $Message = "Dear " . $row->FirstName . " " . $row->LastName . ",<br><br>";
@@ -419,7 +455,7 @@ if (isset($_POST['UpdateRequest'])) {
                         if ($row->Status == 'Completed') {
                             $Message .= "Kindly spare a moment to complete our Customer Satisfaction Form to provide feedback. <br><a href='https://forms.office.com/r/tBGKen7rG6'>CSF Form</a><br><br>";
                         } else {
-                            $Message .= "<strong>Click the link below to view your request</strong><br><a href='http://r6itbpm.site/dti-isds/requestserviceview.php.php?Request=" . $row->RequestNo . "'>View Request</a><br><br>";
+                            $Message .= "<strong>Click the link below to view your request</strong><br><a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=" . $row->RequestNo . "'>View Request</a><br><br>";
                         }
 
                         $Message .= "Thank you for choosing our services.<br><br>";
