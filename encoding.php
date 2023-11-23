@@ -269,7 +269,7 @@ require_once "components/sidebar.php";
                                         <td class="text-nowrap"><?= $conn->query("SELECT * FROM divisions WHERE id='" . $row->DivisionID . "'")->fetch_object()->Division ?></td>
                                         <td class="text-nowrap"><?= $row->DateRequested ?></td>
                                         <td class="text-nowrap"><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
-                                        <td class="text-nowrap"><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->CategoryID . "'")->fetch_object()->SubCategory ?></td>
+                                        <td class="text-nowrap"><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->SubCategoryID . "'")->fetch_object()->SubCategory ?></td>
                                         <td class="text-nowrap <?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
                                     </tr>
                                 <?php
