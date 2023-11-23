@@ -321,6 +321,7 @@ require_once "components/sidebar.php";
                                         array_push($where, "Status = " . $_GET['status']);
                                     }
                                     $query .= "WHERE " . implode(" AND ", $where);
+                                    echo $query;
                                 }
                                 $query .= " ORDER BY id DESC";
                                 $result = $conn->query($query);
