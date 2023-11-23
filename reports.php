@@ -38,7 +38,7 @@ require_once "components/sidebar.php";
                 <div class="row">
 
                     <!-- Pending Widget -->
-                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?FilterStatus=Pending'">
+                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?status=Pending&Filter='">
                         <div class="widget card text-center">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $conn->query("SELECT * FROM helpdesks WHERE Status='Pending'")->num_rows ?></h5>
@@ -48,7 +48,7 @@ require_once "components/sidebar.php";
                     </div>
 
                     <!-- On Going Widget -->
-                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?FilterStatus=On Going'">
+                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?status=On Going&Filter='">
                         <div class="widget card text-center">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $conn->query("SELECT * FROM helpdesks WHERE Status='On Going'")->num_rows ?></h5>
@@ -58,7 +58,7 @@ require_once "components/sidebar.php";
                     </div>
 
                     <!-- Completed Widget -->
-                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?FilterStatus=Completed'">
+                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?status=Completed&Filter='">
                         <div class="widget card text-center">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $conn->query("SELECT * FROM helpdesks WHERE Status='Completed'")->num_rows ?></h5>
@@ -68,7 +68,7 @@ require_once "components/sidebar.php";
                     </div>
 
                     <!-- Denied Widget -->
-                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?FilterStatus=Denied'">
+                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?status=Denied&Filter='">
                         <div class="widget card text-center">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $conn->query("SELECT * FROM helpdesks WHERE Status='Denied'")->num_rows ?></h5>
@@ -78,7 +78,7 @@ require_once "components/sidebar.php";
                     </div>
 
                     <!-- Cancelled Widget -->
-                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?FilterStatus=Cancelled'">
+                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?status=Cancelled&Filter='">
                         <div class="widget card text-center">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $conn->query("SELECT * FROM helpdesks WHERE Status='Cancelled'")->num_rows ?></h5>
@@ -88,7 +88,7 @@ require_once "components/sidebar.php";
                     </div>
 
                     <!-- Unserviceable Widget -->
-                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?FilterStatus=Unserviceable'">
+                    <div class="col-lg-2 col-md-6" style="cursor: pointer;" onclick="location='?status=Unserviceable&Filter='">
                         <div class="widget card text-center">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $conn->query("SELECT * FROM helpdesks WHERE Status='Unserviceable'")->num_rows ?></h5>
@@ -318,10 +318,10 @@ require_once "components/sidebar.php";
                                         array_push($where, "SubCategoryID = " . $_GET['subCategory']);
                                     }
                                     if (!empty($_GET['status'])) {
-                                        array_push($where, "Status = " . $_GET['status']);
+                                        array_push($where, "Status = '" . $_GET['status']."'");
                                     }
                                     $query .= "WHERE " . implode(" AND ", $where);
-                                    echo $query;
+                                    // echo $query;
                                 }
                                 $query .= " ORDER BY id DESC";
                                 $result = $conn->query($query);
