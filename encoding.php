@@ -55,17 +55,13 @@ require_once "components/sidebar.php";
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <label for="RequestType" class="form-label">Request Type</label>
                                 <select class="form-select" id="RequestType" name="RequestType" required>
                                     <option value="" selected disabled></option>
                                     <option value="ICT Helpdesk">ICT Helpdesk</option>
                                     <option value="ICT Maintenance">ICT Maintenance</option>
                                 </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="PropertyNo" class="form-label">Property No</label>
-                                <input type="text" class="form-control" id="PropertyNo" name="PropertyNo" />
                             </div>
                             <div class="col-lg-6">
                                 <label for="CategoryID" class="form-label">Nature of Complaint/s</label>
