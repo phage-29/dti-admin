@@ -134,6 +134,7 @@ require_once "components/sidebar.php";
                                     <option value="Denied" class="text-danger">Denied</option>
                                     <option value="Cancelled" class="text-secondary">Cancelled</option>
                                     <option value="Unserviceable" class="text-info">Unserviceable</option>
+<option value="Pre-Repair">Pre-Repair</option>
                                 </select>
                             </div>
                             <div class="col-lg-12">

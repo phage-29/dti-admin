@@ -223,6 +223,7 @@ require_once "components/header.php";
                                                         <option value="Denied" class="text-danger">Denied</option>
                                                         <option value="Cancelled" class="text-secondary">Cancelled</option>
                                                         <option value="Unserviceable" class="text-info">Unserviceable</option>
+<option value="Pre-Repair">Pre-Repair</option>
                                                     </select>
                                                 </div>
 
