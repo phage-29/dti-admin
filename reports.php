@@ -226,6 +226,7 @@ require_once "components/sidebar.php";
                                     <th scope="col" class="text-nowrap">Diagnosis/Action</th>
                                     <th scope="col" class="text-nowrap">Remarks/Recommendation</th>
                                     <th scope="col" class="text-nowrap">Status</th>
+                                    <th scope="col" class="text-nowrap">CSF</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -351,6 +352,7 @@ require_once "components/sidebar.php";
                                         <td class="text-wrap"><?= $row->Diagnosis ?></td>
                                         <td class="text-wrap"><?= $row->Remarks ?></td>
                                         <td class="text-nowrap <?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
+                                        <td class="text-nowrap <?= $row->Csf == "Pending" ? 'text-warning' : 'text-primary' ?>"><?= $row->Csf ?></td>
                                     </tr>
                                 <?php
                                 }

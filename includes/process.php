@@ -414,7 +414,7 @@ if (isset($_POST['UpdateRequest'])) {
                         $Message .= "<strong>Request Type:</strong> " . $row->RequestType . "<br>";
                         $Message .= "<strong>Description of Assistance Requested:</strong> " . $row->Complaints . "<br><br>";
                         if ($row->Status == 'Completed') {
-                            $Message .= "Kindly spare a moment to complete our Customer Satisfaction Form to provide feedback. <br><a href='https://forms.office.com/r/tBGKen7rG6'>CSF Form</a><br><br>";
+                            $Message .= "Kindly spare a moment to complete our Customer Satisfaction Form to provide feedback. <br><a href='http://r6itbpm.site/dti-isds/csf.php?Request=" . $row->RequestNo . "'>CSF Form</a><br><br>";
                         } else {
                             $Message .= "<strong>Click the link below to view your request</strong><br><a href='http://r6itbpm.site/dti-isds/requestserviceview.php?Request=" . $row->RequestNo . "'>View Request</a><br><br>";
                         }
