@@ -136,7 +136,16 @@ require_once "components/sidebar.php";
                                     <option value="Unserviceable" class="text-info">Unserviceable</option>
                                 </select>
                             </div>
-
+                            <div class="col-lg-12">
+                                <label for="Medium" class="form-label">Medium</label>
+                                <select class="form-select" id="Medium" name="Medium" required>
+                                    <option value="ICT System">ICT System</option>
+                                    <option value="Phone">Phone</option>
+                                    <option value="Memorandum">Memorandum</option>
+                                    <option value="Intercom">Intercom</option>
+                                    <option value="Email">Email</option>
+                                </select>
+                            </div>
                             <div class="col-lg-6">
                                 <label for="DateReceived" class="form-label">DateReceived</label>
                                 <input type="date" class="form-control" id="DateReceived" name="DateReceived" required>
@@ -159,6 +168,14 @@ require_once "components/sidebar.php";
                             <div class="col-lg-12">
                                 <label for="DateScheduled" class="form-label">DateScheduled</label>
                                 <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="ServicePriority" class="form-label">Priority</label>
+                                <select class="form-select" id="ServicePriority" name="ServicePriority" required>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
                             </div>
                             <div class="col-lg-12">
                                 <label for="RepairType" class="form-label">RepairType</label>

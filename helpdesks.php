@@ -76,9 +76,9 @@ require_once "components/sidebar.php";
         </div>
 
         <div class="card">
-          <div class="card-body">
+          <div class="card-body table-responsive">
             <h5 class="card-title">Helpdesks List</h5>
-            <table class="w-100" id="table" style="display: none">
+            <table class="w-100" id="table">
               <thead>
                 <tr>
                   <th class="text-nowrap" scope="col">Request No.</th>
@@ -105,7 +105,7 @@ require_once "components/sidebar.php";
                     <td class="text-nowrap"><?= $row->DateRequested ?></td>
                     <td class="text-nowrap"><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?></td>
                     <td class="text-nowrap"><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->SubCategoryID . "'")->fetch_object()->SubCategory ?></td>
-                    <td class="text-nowrap <?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
+                    <td class="text-nowrap text-center"><span class="badge <?= $row->Status == "Pending" ? 'bg-warning' : ($row->Status == "On Going" ? 'bg-primary' : ($row->Status == "Completed" ? 'bg-success' : ($row->Status == "Denied" ? 'bg-danger' : ($row->Status == "Unserviceable" ? 'bg-secondary' : 'bg-info')))) ?>"><?= $row->Status ?></span></td>
                   </tr>
                 <?php
                 }
@@ -174,14 +174,18 @@ require_once "components/sidebar.php";
                         <label for="TimePreferred" class="form-label">Preferred Time</label>
                         <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" disabled>
                       </div>
-
-                      <div class="col-lg-12">
-                        <label for="RequestType" class="form-label">Request Type</label>
-                        <input type="text" class="form-control" id="RequestType" name="RequestType" disabled>
-                      </div>
                       <hr>
                       <form action="includes/process.php" method="POST" class="row m-0 p-0" id="Form">
                         <input type="hidden" id="id" name="id">
+
+
+                        <div class="col-lg-12">
+                          <label for="RequestType" class="form-label">Request Type</label>
+                          <select class="form-select" id="RequestType" name="RequestType" required>
+                            <option value="ICT Helpdesk">ICT Helpdesk</option>
+                            <option value="ICT Maintenance">ICT Maintenance</option>
+                          </select>
+                        </div>
 
                         <div class="col-lg-12">
                           <label for="DateReceived" class="form-label">DateReceived</label>
@@ -207,6 +211,14 @@ require_once "components/sidebar.php";
                           <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" value="<?= date('Y-m-d') ?>" required>
                         </div>
                         <div class="col-lg-12">
+                          <label for="ServicePriority" class="form-label">Priority</label>
+                          <select class="form-select" id="ServicePriority" name="ServicePriority" required>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                          </select>
+                        </div>
+                        <div class="col-lg-12">
                           <label for="RepairType" class="form-label">RepairType</label>
                           <select class="form-select" id="RepairType" name="RepairType" required>
                             <option value="Minor">Minor</option>
@@ -220,14 +232,6 @@ require_once "components/sidebar.php";
                             <option value="Medium">Medium</option>
                             <option value="Complex">Complex</option>
                             <option value="Highly Technical">Highly Technical</option>
-                          </select>
-                        </div>
-                        <div class="col-lg-12">
-                          <label for="ServicePriority" class="form-label">Priority</label>
-                          <select class="form-select" id="ServicePriority" name="ServicePriority" required>
-                            <option value="High">High</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Low">Low</option>
                           </select>
                         </div>
                         <div class="col-lg-6">
@@ -300,11 +304,9 @@ require_once "components/sidebar.php";
             <script>
               $(document).ready(function() {
                 var dataTable = new DataTable('#table', {
-                  responsive: true,
+                  scrollX: true,
                   aaSorting: [],
                 });
-
-                $('#table').fadeIn(500);
 
                 $('#table tbody').on('click', 'tr', function() {
                   var rowData = dataTable.row(this).data();

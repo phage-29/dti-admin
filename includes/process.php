@@ -297,7 +297,7 @@ if (isset($_POST['Encode'])) {
     $LastName = $conn->real_escape_string($_POST['LastName']);
     $DivisionID = $conn->real_escape_string($_POST['DivisionID']);
     $RequestType = $conn->real_escape_string($_POST['RequestType']);
-    $PropertyNo = $conn->real_escape_string($_POST['PropertyNo']);
+    // $PropertyNo = $conn->real_escape_string($_POST['PropertyNo']);
     $CategoryID = $conn->real_escape_string($_POST['CategoryID']);
     $SubCategoryID = $conn->real_escape_string($_POST['SubCategoryID']);
     $Complaints = $conn->real_escape_string($_POST['Complaints']);
@@ -308,6 +308,9 @@ if (isset($_POST['Encode'])) {
     $ReceivedBy = $conn->real_escape_string($_POST['ReceivedBy']);
     $DateScheduled = $conn->real_escape_string($_POST['DateScheduled']);
     $RepairType = $conn->real_escape_string($_POST['RepairType']);
+    $RepairClassification = $conn->real_escape_string($_POST['RepairClassification']);
+    $Medium = $conn->real_escape_string($_POST['Medium']);
+    $ServicePriority = $conn->real_escape_string($_POST['ServicePriority']);
     $DatetimeStarted = $conn->real_escape_string($_POST['DatetimeStarted']);
     $DatetimeFinished = $conn->real_escape_string($_POST['DatetimeFinished']);
     $Diagnosis = $conn->real_escape_string($_POST['Diagnosis']);
@@ -316,9 +319,9 @@ if (isset($_POST['Encode'])) {
     $ApprovedBy = $conn->real_escape_string($_POST['ApprovedBy']);
 
     $query = "INSERT INTO
-            `helpdesks` (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `PropertyNo`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`,`Status`,`DateReceived`,`ReceivedBy`,`DateScheduled`,`RepairType`,`DatetimeStarted`,`DatetimeFinished`,`Diagnosis`,`Remarks`,`ServicedBy`,`ApprovedBy`)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $PropertyNo, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred, $Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy]);
+            `helpdesks` (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`,`Status`,`DateReceived`,`ReceivedBy`,`DateScheduled`,`RepairType`,`DatetimeStarted`,`DatetimeFinished`,`Diagnosis`,`Remarks`,`ServicedBy`,`ApprovedBy`,`RepairClassification`,`Medium`,`ServicePriority`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred, $Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy,$RepairClassification,$Medium,$ServicePriority]);
 
     $response['status'] = 'success';
     $response['message'] = 'Encoded Successfully';
@@ -330,6 +333,7 @@ if (isset($_POST['UpdateRequest'])) {
     $DateReceived = !empty($_POST['DateReceived']) ? date('Y-m-d', strtotime($_POST['DateReceived'])) : null;
     $ReceivedBy = $_POST['ReceivedBy'] ?? null;
     $DateScheduled = !empty($_POST['DateScheduled']) ? date('Y-m-d H:i:s', strtotime($_POST['DateScheduled'])) : null;
+    $RequestType = $conn->real_escape_string($_POST['RequestType']);
     $RepairType = $conn->real_escape_string($_POST['RepairType']);
     $RepairClassification = $conn->real_escape_string($_POST['RepairClassification']);
     $ServicePriority = $conn->real_escape_string($_POST['ServicePriority']);
@@ -357,8 +361,8 @@ if (isset($_POST['UpdateRequest'])) {
 
         if ($result->num_rows) {
             try {
-                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `DateScheduled`=?, `RepairType`=?, `RepairClassification`=?, `ServicePriority`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
-                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $RepairClassification, $ServicePriority, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
+                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `RequestType`=?, `DateScheduled`=?, `RepairType`=?, `RepairClassification`=?, `ServicePriority`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
+                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $RequestType, $DateScheduled, $RepairType, $RepairClassification, $ServicePriority, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
 
                 if ($updateResult) {
                     $query2 = "SELECT
