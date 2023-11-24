@@ -174,16 +174,21 @@ require_once "components/sidebar.php";
                         <label for="TimePreferred" class="form-label">Preferred Time</label>
                         <input type="time" class="form-control" id="TimePreferred" name="TimePreferred" disabled>
                       </div>
+
+                      <div class="col-lg-12">
+                        <label for="RequestType" class="form-label">Request Type</label>
+                        <input type="text" class="form-control" id="RequestType" name="RequestType" disabled>
+                      </div>
                       <hr>
                       <form action="includes/process.php" method="POST" class="row m-0 p-0" id="Form">
                         <input type="hidden" id="id" name="id">
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                           <label for="DateReceived" class="form-label">DateReceived</label>
                           <input type="date" class="form-control" id="DateReceived" name="DateReceived" value="<?= date('Y-m-d') ?>" required>
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" hidden>
                           <label for="ReceivedBy" class="form-label">ReceivedBy</label>
                           <select class="form-select" id="ReceivedBy" name="ReceivedBy" required>
                             <option value="" selected disabled>--</option>
@@ -215,6 +220,14 @@ require_once "components/sidebar.php";
                             <option value="Medium">Medium</option>
                             <option value="Complex">Complex</option>
                             <option value="Highly Technical">Highly Technical</option>
+                          </select>
+                        </div>
+                        <div class="col-lg-12">
+                          <label for="ServicePriority" class="form-label">Priority</label>
+                          <select class="form-select" id="ServicePriority" name="ServicePriority" required>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
                           </select>
                         </div>
                         <div class="col-lg-6">
@@ -318,12 +331,14 @@ require_once "components/sidebar.php";
                       $('#Complaints').val(response.Complaints);
                       $('#DatePreferred').val(response.DatePreferred);
                       $('#TimePreferred').val(response.TimePreferred);
+                      $('#RequestType').val(response.RequestType);
                       $('#Status').val(response.Status);
                       $('#DateReceived').val(response.DateReceived);
                       $('#ReceivedBy').val(response.ReceivedBy);
                       $('#DateScheduled').val(response.DateScheduled);
                       $('#RepairType').val(response.RepairType);
                       $('#RepairClassification').val(response.RepairClassification);
+                      $('#ServicePriority').val(response.ServicePriority);
                       $('#DatetimeStarted').val(response.DatetimeStarted);
                       $('#DatetimeFinished').val(response.DatetimeFinished);
                       $('#Diagnosis').val(response.Diagnosis);

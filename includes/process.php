@@ -332,6 +332,7 @@ if (isset($_POST['UpdateRequest'])) {
     $DateScheduled = !empty($_POST['DateScheduled']) ? date('Y-m-d H:i:s', strtotime($_POST['DateScheduled'])) : null;
     $RepairType = $conn->real_escape_string($_POST['RepairType']);
     $RepairClassification = $conn->real_escape_string($_POST['RepairClassification']);
+    $ServicePriority = $conn->real_escape_string($_POST['ServicePriority']);
     $DatetimeStarted = !empty($_POST['DatetimeStarted']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeStarted'])) : null;
     $DatetimeFinished = !empty($_POST['DatetimeFinished']) ? date('Y-m-d H:i:s', strtotime($_POST['DatetimeFinished'])) : null;
     $Diagnosis = $conn->real_escape_string($_POST['Diagnosis']);
@@ -341,32 +342,10 @@ if (isset($_POST['UpdateRequest'])) {
 
     try {
         $query = "SELECT
-                    h.`id`,
-                    h.`RequestNo`,
-                    h.`FirstName`,
-                    h.`LastName`,
-                    h.`Email`,
-                    d.Division as `Division`,
-                    h.`DateRequested`,
-                    h.`RequestType`,
-                    h.`PropertyNo`,
-                    c.Category as `Category`,
-                    sc.SubCategory as `SubCategory`,
-                    h.`Complaints`,
-                    h.`DateReceived`,
+                    *,
                     CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
-                    h.`DateScheduled`,
-                    h.`RepairType`,
-                    h.`RepairClassification`,
-                    h.`DatetimeStarted`,
-                    h.`DatetimeFinished`,
-                    h.`Diagnosis`,
-                    h.`Remarks`,
                     CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
-                    CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
-                    h.`Status`,
-                    h.`CreatedAt`,
-                    h.`UpdatedAt`
+                    CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`
                 FROM helpdesks h
                     LEFT JOIN divisions d ON h.`DivisionID` = d.id
                     LEFT JOIN categories c ON h.`CategoryID` = c.id
@@ -378,37 +357,15 @@ if (isset($_POST['UpdateRequest'])) {
 
         if ($result->num_rows) {
             try {
-                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `DateScheduled`=?, `RepairType`=?, `RepairClassification`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
-                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $RepairClassification, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
+                $updateQuery = "UPDATE helpdesks SET `Status`=?, `DateReceived`=?, `ReceivedBy`=?, `DateScheduled`=?, `RepairType`=?, `RepairClassification`=?, `ServicePriority`=?, `DatetimeStarted`=?, `DatetimeFinished`=?, `Diagnosis`=?, `Remarks`=?, `ServicedBy`=?, `ApprovedBy`=? WHERE `id`=?";
+                $updateResult = $conn->execute_query($updateQuery, [$Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $RepairClassification, $ServicePriority, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $id]);
 
                 if ($updateResult) {
                     $query2 = "SELECT
-                    h.`id`,
-                    h.`RequestNo`,
-                    h.`FirstName`,
-                    h.`LastName`,
-                    h.`Email`,
-                    d.Division as `Division`,
-                    h.`DateRequested`,
-                    h.`RequestType`,
-                    h.`PropertyNo`,
-                    c.Category as `Category`,
-                    sc.SubCategory as `SubCategory`,
-                    h.`Complaints`,
-                    h.`DateReceived`,
+                    *,
                     CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
-                    h.`DateScheduled`,
-                    h.`RepairType`,
-                    h.`RepairClassification`,
-                    h.`DatetimeStarted`,
-                    h.`DatetimeFinished`,
-                    h.`Diagnosis`,
-                    h.`Remarks`,
                     CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
-                    CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`,
-                    h.`Status`,
-                    h.`CreatedAt`,
-                    h.`UpdatedAt`
+                    CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`
                 FROM helpdesks h
                     LEFT JOIN divisions d ON h.`DivisionID` = d.id
                     LEFT JOIN categories c ON h.`CategoryID` = c.id

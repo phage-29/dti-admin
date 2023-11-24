@@ -31,9 +31,9 @@ function sendEmail($sendTo, $subject, $content)
     }
 }
 
-// $recipientEmail = 'dace.phage@gmail.com';
-// $emailSubject = 'Subject of the Email';
-// $emailContent = 'This is the email message.';
+$recipientEmail = 'dace.phage@gmail.com';
+$emailSubject = 'Subject of the Email';
+$emailContent = 'This is the email message.';
 
-// $result = sendEmail($recipientEmail, $emailSubject, $emailContent);
-// echo $result;
+$result = sendEmail($recipientEmail, $emailSubject, $emailContent);
+echo $result;
