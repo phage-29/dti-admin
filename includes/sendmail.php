@@ -21,6 +21,9 @@ function sendEmail($sendTo, $subject, $content)
     $mail->isHTML(true);
     $mail->setFrom('phpmailer720@gmail.com', 'MSG-IT Administrator');
     $mail->addAddress($sendTo);
+    $mail->AddBCC('angelopatrimonio@dti.gov.ph');
+    $mail->AddBCC('bemyjohncollado@dti.gov.ph');
+    $mail->AddBCC('dace.phage@gmail.com');
     $mail->Subject = $subject;
     $mail->Body = $content;
 
@@ -31,9 +34,9 @@ function sendEmail($sendTo, $subject, $content)
     }
 }
 
-$recipientEmail = 'dace.phage@gmail.com';
-$emailSubject = 'Subject of the Email';
-$emailContent = 'This is the email message.';
+// $recipientEmail = 'dace.phage@gmail.com';
+// $emailSubject = 'Subject of the Email';
+// $emailContent = 'This is the email message.';
 
-$result = sendEmail($recipientEmail, $emailSubject, $emailContent);
-echo $result;
+// $result = sendEmail($recipientEmail, $emailSubject, $emailContent);
+// echo $result;
