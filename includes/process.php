@@ -321,7 +321,7 @@ if (isset($_POST['Encode'])) {
     $query = "INSERT INTO
             `helpdesks` (`DateRequested`, `RequestNo`, `Email`, `FirstName`, `LastName`, `DivisionID`, `RequestType`, `CategoryID`, `SubCategoryID`, `Complaints`, `DatePreferred`, `TimePreferred`,`Status`,`DateReceived`,`ReceivedBy`,`DateScheduled`,`RepairType`,`DatetimeStarted`,`DatetimeFinished`,`Diagnosis`,`Remarks`,`ServicedBy`,`ApprovedBy`,`RepairClassification`,`Medium`,`ServicePriority`)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred, $Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy,$RepairClassification,$Medium,$ServicePriority]);
+    $result = $conn->execute_query($query, [$DateRequested, $RequestNo, $Email, $FirstName, $LastName, $DivisionID, $RequestType, $CategoryID, $SubCategoryID, $Complaints, $DatePreferred, $TimePreferred, $Status, $DateReceived, $ReceivedBy, $DateScheduled, $RepairType, $DatetimeStarted, $DatetimeFinished, $Diagnosis, $Remarks, $ServicedBy, $ApprovedBy, $RepairClassification, $Medium, $ServicePriority]);
 
     $response['status'] = 'success';
     $response['message'] = 'Encoded Successfully';
@@ -346,7 +346,9 @@ if (isset($_POST['UpdateRequest'])) {
 
     try {
         $query = "SELECT
-                    *,
+                    h.*,
+                    c.*,
+                    sc.*,
                     CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
                     CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
                     CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`
@@ -366,7 +368,9 @@ if (isset($_POST['UpdateRequest'])) {
 
                 if ($updateResult) {
                     $query2 = "SELECT
-                    *,
+                    h.*,
+                    c.*,
+                    sc.*,
                     CONCAT(u1.FirstName, ' ', u1.LastName) as `ReceivedBy`,
                     CONCAT(u2.FirstName, ' ', u2.LastName) as `ServicedBy`,
                     CONCAT(u3.FirstName, ' ', u3.LastName) as `ApprovedBy`
