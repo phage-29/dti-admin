@@ -1,5 +1,5 @@
 <?php
-$page = "Dashboard";
+$page = "Encoding";
 require_once "includes/session.php";
 require_once "components/header.php";
 require_once "components/topbar.php";
@@ -27,7 +27,7 @@ require_once "components/sidebar.php";
                         <form action="includes/process.php" method="post" class="row g-3 overflow-auto" style="height: 75vh">
                             <div class="col-lg-12">
                                 <label for="DateRequested" class="form-label">Date Requested</label>
-                                <input type="date" class="form-control" id="DateRequested" name="DateRequested" required>
+                                <input type="date" class="form-control" id="DateRequested" name="DateRequested" value="<?= date('Y-m-d') ?>" required>
                             </div>
                             <div class="col-lg-12">
                                 <label for="Email" class="form-label">Email</label>
@@ -149,7 +149,7 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-6">
                                 <label for="DateReceived" class="form-label">DateReceived</label>
-                                <input type="date" class="form-control" id="DateReceived" name="DateReceived" required>
+                                <input type="date" class="form-control" id="DateReceived" name="DateReceived" value="<?= date('Y-m-d') ?>" required>
                             </div>
 
                             <div class="col-lg-6">
@@ -168,7 +168,7 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-12">
                                 <label for="DateScheduled" class="form-label">DateScheduled</label>
-                                <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" required>
+                                <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" value="<?= date('Y-m-d') ?>" required>
                             </div>
                             <div class="col-lg-12">
                                 <label for="ServicePriority" class="form-label">Priority</label>
@@ -196,11 +196,11 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-6">
                                 <label for="DatetimeStarted" class="form-label">DatetimeStarted</label>
-                                <input type="datetime-local" class="form-control" id="DatetimeStarted" name="DatetimeStarted" required>
+                                <input type="datetime-local" class="form-control" id="DatetimeStarted" name="DatetimeStarted" value="<?= date('Y-m-d H:i a') ?>" required>
                             </div>
                             <div class="col-lg-6">
                                 <label for="DatetimeFinished" class="form-label">DatetimeFinished</label>
-                                <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" required>
+                                <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= date('Y-m-d H:i a') ?>" required>
                             </div>
                             <div class="col-lg-12">
                                 <label for="Diagnosis" class="form-label">Diagnosis</label>
