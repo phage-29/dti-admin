@@ -338,8 +338,8 @@ require_once "components/sidebar.php";
                                         <td class="text-nowrap"><?= $row->RequestType ?></td>
                                         <td class="text-nowrap"><?= $row->PropertyNo ?></td>
                                         <td class="text-nowrap"><?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?? null ?></td>
-                                        <td class="text-wrap"><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->SubCategoryID . "'")->fetch_object()->SubCategory ?? null ?></td>
-                                        <td class="text-wrap"><?= $row->Complaints ?></td>
+                                        <td class="text-nowrap"><?= $conn->query("SELECT * FROM subcategories WHERE id='" . $row->SubCategoryID . "'")->fetch_object()->SubCategory ?? null ?></td>
+                                        <td class="text-nowrap"><?= $row->Complaints ?></td>
                                         <td class="text-nowrap"><?= $row->RepairType ?></td>
                                         <td class="text-nowrap"><?= $row->DateReceived ?></td>
                                         <td class="text-nowrap"><?= $row->DateScheduled ?></td>
@@ -349,8 +349,8 @@ require_once "components/sidebar.php";
                                         <td class="text-nowrap"><?= $conn->query("SELECT * FROM users WHERE id='" . $row->ReceivedBy . "'")->fetch_object()->FirstName ?? null ?></td>
                                         <td class="text-nowrap"><?= $conn->query("SELECT * FROM users WHERE id='" . $row->ServicedBy . "'")->fetch_object()->FirstName ?? null ?></td>
                                         <td class="text-nowrap"><?= $conn->query("SELECT * FROM users WHERE id='" . $row->ApprovedBy . "'")->fetch_object()->FirstName ?? null ?></td>
-                                        <td class="text-wrap"><?= $row->Diagnosis ?></td>
-                                        <td class="text-wrap"><?= $row->Remarks ?></td>
+                                        <td class="text-nowrap"><?= $row->Diagnosis ?></td>
+                                        <td class="text-nowrap"><?= $row->Remarks ?></td>
                                         <td class="text-nowrap <?= $row->Status == "Pending" ? 'text-warning' : ($row->Status == "On Going" ? 'text-primary' : ($row->Status == "Completed" ? 'text-success' : ($row->Status == "Denied" ? 'text-danger' : ($row->Status == "Unserviceable" ? 'text-secondary' : 'text-info')))) ?>"><?= $row->Status ?></td>
                                         <td class="text-nowrap <?= $row->Csf == "Pending" ? 'text-warning' : 'text-primary' ?>"><?= $row->Csf ?></td>
                                     </tr>
