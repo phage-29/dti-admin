@@ -31,7 +31,7 @@ require_once "components/sidebar.php";
               document.addEventListener("DOMContentLoaded", () => {
                 new ApexCharts(document.querySelector("#lineChart"), {
                   series: [{
-                    name: "Desktops",
+                    name: "Requests",
                     data: [
                       <?php
                       $query = "SELECT
