@@ -196,11 +196,11 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-6">
                                 <label for="DatetimeStarted" class="form-label">DatetimeStarted</label>
-                                <input type="datetime-local" class="form-control" id="DatetimeStarted" name="DatetimeStarted" value="<?= date('Y-m-d H:i a') ?>" required>
+                                <input type="datetime-local" class="form-control" id="DatetimeStarted" name="DatetimeStarted" value="<?= date('Y-m-d H:i') ?>" required>
                             </div>
                             <div class="col-lg-6">
                                 <label for="DatetimeFinished" class="form-label">DatetimeFinished</label>
-                                <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= date('Y-m-d H:i a') ?>" required>
+                                <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= date('Y-m-d H:i') ?>" required>
                             </div>
                             <div class="col-lg-12">
                                 <label for="Diagnosis" class="form-label">Diagnosis</label>
