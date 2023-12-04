@@ -127,7 +127,7 @@ require_once "components/sidebar.php";
                             <hr>
                             <div class="col-lg-12">
                                 <label for="Status" class="form-label">Status</label>
-                                <select class="form-select" id="Status" name="Status" required>
+                                <select class="form-select" id="Status" name="Status">
                                     <option value="Pending" class="text-warning">Pending</option>
                                     <option value="On Going" class="text-primary">On Going</option>
                                     <option value="Completed" class="text-success">Completed</option>
@@ -139,7 +139,7 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-12">
                                 <label for="Medium" class="form-label">Medium</label>
-                                <select class="form-select" id="Medium" name="Medium" required>
+                                <select class="form-select" id="Medium" name="Medium">
                                     <option value="ICT System">ICT System</option>
                                     <option value="Phone">Phone</option>
                                     <option value="Memorandum">Memorandum</option>
@@ -149,12 +149,12 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-6">
                                 <label for="DateReceived" class="form-label">DateReceived</label>
-                                <input type="date" class="form-control" id="DateReceived" name="DateReceived" value="<?= date('Y-m-d') ?>" required>
+                                <input type="date" class="form-control" id="DateReceived" name="DateReceived" value="<?= date('Y-m-d') ?>">
                             </div>
 
                             <div class="col-lg-6">
                                 <label for="ReceivedBy" class="form-label">ReceivedBy</label>
-                                <select class="form-select" id="ReceivedBy" name="ReceivedBy" required>
+                                <select class="form-select" id="ReceivedBy" name="ReceivedBy">
                                     <option value="" selected disabled>--</option>
                                     <?php
                                     $result = $conn->query("SELECT * FROM users");
@@ -168,11 +168,11 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-12">
                                 <label for="DateScheduled" class="form-label">DateScheduled</label>
-                                <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" value="<?= date('Y-m-d') ?>" required>
+                                <input type="date" class="form-control" id="DateScheduled" name="DateScheduled" value="<?= date('Y-m-d') ?>">
                             </div>
                             <div class="col-lg-12">
                                 <label for="ServicePriority" class="form-label">Priority</label>
-                                <select class="form-select" id="ServicePriority" name="ServicePriority" required>
+                                <select class="form-select" id="ServicePriority" name="ServicePriority">
                                     <option value="Low">Low</option>
                                     <option value="Medium">Medium</option>
                                     <option value="High">High</option>
@@ -180,14 +180,14 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-12">
                                 <label for="RepairType" class="form-label">RepairType</label>
-                                <select class="form-select" id="RepairType" name="RepairType" required>
+                                <select class="form-select" id="RepairType" name="RepairType">
                                     <option value="Minor">Minor</option>
                                     <option value="Major">Major</option>
                                 </select>
                             </div>
                             <div class="col-lg-12">
                                 <label for="RepairClassification" class="form-label">RepairClassification</label>
-                                <select class="form-select" id="RepairClassification" name="RepairClassification" required>
+                                <select class="form-select" id="RepairClassification" name="RepairClassification">
                                     <option value="Simple">Simple</option>
                                     <option value="Medium">Medium</option>
                                     <option value="Complex">Complex</option>
@@ -196,11 +196,11 @@ require_once "components/sidebar.php";
                             </div>
                             <div class="col-lg-6">
                                 <label for="DatetimeStarted" class="form-label">DatetimeStarted</label>
-                                <input type="datetime-local" class="form-control" id="DatetimeStarted" name="DatetimeStarted" value="<?= date('Y-m-d H:i') ?>" required>
+                                <input type="datetime-local" class="form-control" id="DatetimeStarted" name="DatetimeStarted" value="<?= date('Y-m-d H:i') ?>">
                             </div>
                             <div class="col-lg-6">
                                 <label for="DatetimeFinished" class="form-label">DatetimeFinished</label>
-                                <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= date('Y-m-d H:i') ?>" required>
+                                <input type="datetime-local" class="form-control" id="DatetimeFinished" name="DatetimeFinished" value="<?= date('Y-m-d H:i') ?>">
                             </div>
                             <div class="col-lg-12">
                                 <label for="Diagnosis" class="form-label">Diagnosis</label>
