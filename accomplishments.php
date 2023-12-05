@@ -60,7 +60,7 @@ require_once "components/sidebar.php";
                                             <?= $row->LastName ?>, <?= $row->FirstName ?>
                                         </td>
                                         <td class="text-wrap">
-                                            <?= $row->Remarks ?>
+                                            <?= $row->Complaints ?>
                                         </td>
                                         <td class="text-nowrap">
                                             <?= $conn->query("SELECT * FROM categories WHERE id='" . $row->CategoryID . "'")->fetch_object()->Category ?>
